@@ -14,9 +14,9 @@ use App\Providers\RouteServiceProvider;
 
 new #[Layout('layouts.guest')] class extends Component {
     #[Validate]
-    public string $nom = '';
+    public string $first_name = '';
     #[Validate]
-    public string $prenom = '';
+    public string $last_name = '';
     #[Validate]
     public string $email = '';
     #[Validate]
@@ -24,20 +24,17 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Validate]
     public string $password_confirmation = '';
     #[Validate]
-    public string $role = UserRole::USER->value;
-    #[Validate]
-    public bool $statut = true;
+    public string $role = UserRole::ADMIN->value;
 
     protected function rules(): array
     {
         return [
-            'nom' => ['required', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
             'password_confirmation' => ['required', 'string', 'same:password'],
             'role' => [Rule::in(array_column(UserRole::cases(), 'value'))],
-            'statut' => ['boolean'],
         ];
     }
 
@@ -60,15 +57,15 @@ new #[Layout('layouts.guest')] class extends Component {
         <div class="grid grid-cols-1 gap-x-6 gap-y-8">
             {{-- * Nom --}}
             <div class="col-span-full">
-                <x-form.group name="nom" :label="__('Nom')">
-                    <x-form.input name="nom" required live />
+                <x-form.group name="first_name" :label="__('Nom')">
+                    <x-form.input name="first_name" required live />
                 </x-form.group>
             </div>
 
             {{-- * Prénom --}}
             <div class="col-span-full">
-                <x-form.group name="prenom" :label="__('Prénom')">
-                    <x-form.input name="prenom" required live />
+                <x-form.group name="last_name" :label="__('Prénom')">
+                    <x-form.input name="last_name" required live />
                 </x-form.group>
             </div>
 
@@ -100,12 +97,6 @@ new #[Layout('layouts.guest')] class extends Component {
                 </x-form.group>
             </div>
 
-            {{-- * Statut --}}
-            <div class="col-span-full">
-                <x-form.group name="statut" :label="__('Actif')">
-                    <x-form.checkbox name="statut" />
-                </x-form.group>
-            </div>
         </div>
 
         <div class="mt-5 flex flex-col items-center gap-4 justify-end">

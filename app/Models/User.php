@@ -20,12 +20,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'nom',
-        'prenom',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'role',
-        'statut',
     ];
 
     /**
@@ -49,7 +48,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => UserRole::class,
-            'statut' => 'boolean',
         ];
+    }
+
+    public function organizedEvents()
+    {
+        return $this->hasMany(Event::class, 'organizer_id');
     }
 }

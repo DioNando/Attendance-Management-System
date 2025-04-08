@@ -1,66 +1,212 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Système de Gestion de Présence par QR Code
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet est un système de gestion de présence basé sur la technologie QR code pour les événements. Il permet aux organisateurs de gérer efficacement leurs invités, de générer des QR codes uniques pour chaque participant, d'envoyer des invitations par email et d'offrir une interface de scan pour vérifier les présences lors des événements.
 
-## About Laravel
+## Fonctionnalités principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Gestion d'événements**
+  - Création et modification d'événements
+  - Configuration des lieux, dates et informations
+  - Tableau de bord avec statistiques de présence
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Gestion des invités**
+  - Ajout manuel d'invités
+  - Import en masse via fichier CSV
+  - Génération automatique de QR codes uniques
+  - Envoi d'invitations par email avec QR code intégré
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Système de QR code**
+  - Génération de QR codes uniques et sécurisés
+  - Interface de scan adaptée aux mobiles
+  - Vérification instantanée des invités
+  - Horodatage des arrivées
 
-## Learning Laravel
+- **Suivi des présences**
+  - Tableau de présence en temps réel
+  - Statistiques et rapports d'événement
+  - Export des données de présence
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Structure du projet
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Entités et relations
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Utilisateurs (User)
+- Différents rôles: Admin, Organisateur, Staff, Scanner, Invité
+- Gestion des droits d'accès selon les rôles
+- Authentification et sécurité
 
-## Laravel Sponsors
+Relations:
+- Un utilisateur peut organiser plusieurs événements (si Organisateur)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### Événements (Event)
+- Informations détaillées sur l'événement (nom, description, lieu)
+- Dates de début et de fin
+- Paramètres de configuration
 
-### Premium Partners
+Relations:
+- Un événement appartient à un organisateur (User)
+- Un événement peut avoir plusieurs invités (Guests)
+- Un événement contient plusieurs enregistrements de présence (Attendances)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### Invités (Guest)
+- Informations personnelles (nom, prénom, email)
+- QR code unique
+- Statut d'invitation (envoyée, non envoyée)
 
-## Contributing
+Relations:
+- Un invité est associé à un événement spécifique
+- Un invité peut avoir un enregistrement de présence
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Présences (Attendance)
+- Enregistrement des entrées
+- Horodatage de l'arrivée
+- Utilisateur ayant effectué le scan
+- Statut (enregistré, absent, etc.)
 
-## Code of Conduct
+Relations:
+- Une présence est liée à un invité
+- Une présence est liée à un événement
+- Une présence peut être enregistrée par un utilisateur
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Diagramme des relations
 
-## Security Vulnerabilities
+```
+User (1) ---> (*) Event
+Event (1) ---> (*) Guest
+Event (1) ---> (*) Attendance
+Guest (1) ---> (1) Attendance
+User (1) ---> (*) Attendance (checked_in_by)
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Technologies utilisées
 
-## License
+- **Backend**
+  - Laravel 10.x (Framework PHP)
+  - MySQL/PostgreSQL (Base de données)
+  - Queues Laravel (Traitement asynchrone des emails)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Frontend**
+  - Blade (Moteur de templates Laravel)
+  - Livewire (Composants dynamiques)
+  - Alpine.js (Interactivité JavaScript)
+  - Tailwind CSS (Framework CSS)
+
+- **Packages clés**
+  - `simplesoftwareio/simple-qrcode` : Génération de QR codes
+  - `maatwebsite/excel` : Import/export CSV des invités
+  - `jsQR` ou `instascan` : Lecture des QR codes via webcam/caméra mobile
+
+## Installation et configuration
+
+### Prérequis
+- PHP 8.1 ou supérieur
+- Composer
+- Node.js et NPM
+- Base de données MySQL ou PostgreSQL
+
+### Installation
+
+1. Cloner le dépôt
+   ```bash
+   git clone https://github.com/votre-username/attendance-management-system.git
+   cd attendance-management-system
+   ```
+
+2. Installer les dépendances
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. Configurer l'environnement
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. Configurer la base de données dans le fichier .env
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=nom_de_votre_bd
+   DB_USERNAME=votre_utilisateur
+   DB_PASSWORD=votre_mot_de_passe
+   ```
+
+5. Configurer l'envoi d'emails
+   ```
+   MAIL_MAILER=smtp
+   MAIL_HOST=votre_serveur_smtp
+   MAIL_PORT=587
+   MAIL_USERNAME=votre_username
+   MAIL_PASSWORD=votre_password
+   MAIL_ENCRYPTION=tls
+   MAIL_FROM_ADDRESS=invitations@votredomaine.com
+   MAIL_FROM_NAME="Système d'invitation"
+   ```
+
+6. Exécuter les migrations et les seeders
+   ```bash
+   php artisan migrate --seed
+   ```
+
+7. Compiler les assets
+   ```bash
+   npm run dev
+   ```
+
+8. Démarrer le serveur
+   ```bash
+   php artisan serve
+   ```
+
+9. Démarrer la queue worker pour les emails (dans un terminal séparé)
+   ```bash
+   php artisan queue:work
+   ```
+
+## Workflows utilisateur
+
+### Organisateur d'événement
+1. Crée un nouvel événement avec tous les détails
+2. Ajoute des invités manuellement ou via import CSV
+3. Envoie des invitations par email
+4. Suit les confirmations et les présences via le tableau de bord
+5. Génère des rapports post-événement
+
+### Invité
+1. Reçoit un email avec un QR code unique
+2. Présente le QR code à l'entrée de l'événement (version imprimée ou mobile)
+
+### Personnel de scan
+1. Se connecte à l'application via l'interface de scan
+2. Utilise un appareil mobile ou un ordinateur avec webcam
+3. Scanne les QR codes des invités
+4. Visualise instantanément les informations de l'invité et enregistre sa présence
+
+## Sécurité
+
+- QR codes uniques avec UUID v4
+- Authentification et autorisations basées sur les rôles
+- Validation des données
+- Protection contre les CSRF
+- Validation des QR codes spécifiques à l'événement
+
+## Contribution au projet
+
+Les contributions sont les bienvenues ! Pour contribuer :
+
+1. Fork le projet
+2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/amazing-feature`)
+3. Commit vos changements (`git commit -m 'Add some amazing feature'`)
+4. Push vers la branche (`git push origin feature/amazing-feature`)
+5. Ouvrez une Pull Request
+
+## Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
+
+---
+
+Développé avec ❤️ par Wave Inc.

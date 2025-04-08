@@ -5,30 +5,30 @@ namespace App\Enums;
 enum UserRole: string
 {
     case ADMIN = 'admin';
-    case USER = 'user';
-    case RH = 'rh';
-    case MANAGER = 'manager';
-    case EMPLOYE = 'employe';
+    case ORGANIZER = 'organizer';
+    case STAFF = 'staff';
+    case SCANNER = 'scanner';
+    case GUEST = 'guest';
 
     public static function all(): array
     {
         return [
             self::ADMIN,
-            self::USER,
-            self::RH,
-            self::MANAGER,
-            self::EMPLOYE,
+            self::ORGANIZER,
+            self::STAFF,
+            self::SCANNER,
+            self::GUEST
         ];
     }
 
     public function label(): string
     {
-        return match ($this) {
+        return match($this) {
             self::ADMIN => 'Administrateur',
-            self::USER => 'Utilisateur',
-            self::RH => 'Ressources Humaines',
-            self::MANAGER => 'Manager',
-            self::EMPLOYE => 'Employé',
+            self::ORGANIZER => 'Organisateur',
+            self::STAFF => 'Staff',
+            self::SCANNER => 'Scanner',
+            self::GUEST => 'Invité',
         };
     }
 }

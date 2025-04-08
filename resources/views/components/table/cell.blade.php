@@ -1,3 +1,6 @@
-@props(['content'])
+@props(['content' => '', 'class' => 'py-5 px-5 text-sm whitespace-wrap'])
 
-<td class="px-4 py-2 text-gray-600">{{ $content }}</td>
+<td {{ $attributes->merge(['class' => $class]) }}>
+    {{ $content }}
+    {{ $slot }}
+</td>

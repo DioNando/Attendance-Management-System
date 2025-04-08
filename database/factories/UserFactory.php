@@ -28,13 +28,12 @@ class UserFactory extends Factory
         $firstName = fake()->firstName();
 
         return [
-            'nom' => $lastName,
-            'prenom' => $firstName,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'email' => strtolower($lastName . '.' . $firstName . fake()->numberBetween(1, 100) . '@waveagency.fr'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => fake()->randomElement(array_column(UserRole::cases(), 'value')),
-            'statut' => fake()->boolean(),
             'remember_token' => Str::random(10),
         ];
     }

@@ -19,7 +19,6 @@ class RouteServiceProvider extends ServiceProvider
         $userRole = Auth::user()?->role->value;
         return route(match ($userRole) {
             UserRole::ADMIN->value => 'admin.dashboard',
-            UserRole::RH->value => 'rh.dashboard',
             default => 'dashboard',
         });
     }

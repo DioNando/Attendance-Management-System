@@ -7,8 +7,8 @@ use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public string $nom = '';
-    public string $prenom = '';
+    public string $first_name = '';
+    public string $last_name = '';
     public string $email = '';
 
     /**
@@ -16,8 +16,8 @@ new class extends Component {
      */
     public function mount(): void
     {
-        $this->prenom = Auth::user()->prenom;
-        $this->nom = Auth::user()->nom;
+        $this->last_name = Auth::user()->last_name;
+        $this->first_name = Auth::user()->first_name;
         $this->email = Auth::user()->email;
     }
 
@@ -29,8 +29,8 @@ new class extends Component {
         $user = Auth::user();
 
         $validated = $this->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
 
@@ -42,7 +42,7 @@ new class extends Component {
 
         $user->save();
 
-        $this->dispatch('profile-updated', nom: $user->nom);
+        $this->dispatch('profile-updated', first_name: $user->first_name);
     }
 
     /**
@@ -67,17 +67,17 @@ new class extends Component {
 <section>
     <x-form.form submit="updateProfileInformation">
         <div class="grid grid-cols-1 gap-x-6 gap-y-8">
-            {{-- Nom --}}
+            {{-- first_name --}}
             <div class="col-span-full">
-                <x-form.group name="nom" :label="__('Nom')">
-                    <x-form.input type="text" name="nom" required autofocus autocomplete="family-name" />
+                <x-form.group name="first_name" :label="__('Nom')">
+                    <x-form.input type="text" name="first_name" required autofocus autocomplete="family-name" />
                 </x-form.group>
             </div>
 
-            {{-- Prénom --}}
+            {{-- Préfirst_name --}}
             <div class="col-span-full">
-                <x-form.group name="prenom" :label="__('Prénom')">
-                    <x-form.input type="text" name="prenom" required autocomplete="given-name" />
+                <x-form.group name="last_name" :label="__('Prénom')">
+                    <x-form.input type="text" name="last_name" required autocomplete="given-name" />
                 </x-form.group>
             </div>
 

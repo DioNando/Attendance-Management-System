@@ -13,12 +13,8 @@
             </x-slot>
         </div>
         {{-- * Dashboard content --}}
-        <div class="hidden">
-            <x-table.table :headers="['Nom', 'Description', 'Nombre', 'Statut', 'code', 'Date d\'embauche', 'Coordonnées', 'Contact', 'Action']">
+       <livewire:pages.admin.guest-list />
 
-            </x-table.table>
-        </div>
-        
 
     </section>
     {{-- * Activity feed  --}}

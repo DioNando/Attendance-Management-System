@@ -68,7 +68,7 @@ new class extends Component {
                     </div> --}}
                     <span class="flex lg:items-center">
                         <span class="flex-shrink-0 ml-4 text-sm/6 font-semibold text-gray-900 dark:text-gray-200" aria-hidden="true"
-                            x-data="{{ json_encode(['nom' => auth()->user()->nom]) }}" x-text="nom"
+                            x-data="{{ json_encode(['nom' => auth()->user()->first_name]) }}" x-text="nom"
                             x-on:profile-updated.window="nom = $event.detail.nom"></span>
                         <svg class="ml-2 size-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true" data-slot="icon">
