@@ -21,32 +21,25 @@
                         <x-application-logo class="h-8" />
                     </div>
                     <nav class="flex flex-1 flex-col">
-                        {{-- <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                        <li>
-                            <ul role="list" class="-mx-2 space-y-1">
-                                <li>
-                                    <x-nav.link route="dashboard.index" icon="home" label="Tableau de bord" />
-                                </li>
-                                <li>
-                                    <x-nav.link route="collaborateurs.index" icon="users" label="Collaborateurs" />
-                                </li>
-                                <li>
-                                    <x-nav.link route="conges.index" icon="calendar" label="Congés" />
-                                </li>
-                                <li>
-                                    <x-nav.link route="documents-administratifs.index" icon="document-text" label="Documents" />
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <div class="text-xs/6 font-semibold text-gray-400">Options</div>
-                            <x-layout.link />
-                        </li>
-                        <li class="mt-auto">
-                            <x-nav.link route="dashboard.settings" icon="wrench-screwdriver" label="Configurations" />
-                        </li>
-                    </ul> --}}
+                        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                            <li>
+                                <ul role="list" class="-mx-2 space-y-1">
+                                    {{-- <li>
+                                        <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
+                                    </li> --}}
+                                    <li>
+                                        <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
+                                    </li>
+                                    <li>
+                                        <x-layout.link route="admin.guests.index" icon="user-group" label="Invités" />
+                                    </li>
+                                    <li>
+                                        <x-layout.link route="admin.users.index" icon="user-group"
+                                            label="Utilisateurs" />
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
             </div>
@@ -64,32 +57,24 @@
                 <x-application-logo class="h-8" />
             </div>
             <nav class="flex flex-1 flex-col">
-                {{-- <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                <li>
-                    <ul role="list" class="-mx-2 space-y-1">
-                        <li>
-                            <x-nav.link route="dashboard.index" icon="home" label="Tableau de bord" />
-                        </li>
-                        <li>
-                            <x-nav.link route="collaborateurs.index" icon="users" label="Collaborateurs" />
-                        </li>
-                        <li>
-                            <x-nav.link route="conges.index" icon="calendar" label="Congés" />
-                        </li>
-                        <li>
-                            <x-nav.link route="documents-administratifs.index" icon="document-text" label="Documents" />
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="text-xs/6 font-semibold text-gray-400">Options</div>
-                    <x-layout.link />
-                </li>
-                <li class="mt-auto">
-                    <x-nav.link route="dashboard.settings" icon="wrench-screwdriver" label="Configurations" />
-                </li>
-            </ul> --}}
+                <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                    <li>
+                        <ul role="list" class="-mx-2 space-y-1">
+                            {{-- <li>
+                                <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
+                            </li> --}}
+                            <li>
+                                <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
+                            </li>
+                            <li>
+                                <x-layout.link route="admin.guests.index" icon="user-group" label="Invités" />
+                            </li>
+                            <li>
+                                <x-layout.link route="admin.users.index" icon="user" label="Utilisateurs" />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </nav>
         </div>
     </div>

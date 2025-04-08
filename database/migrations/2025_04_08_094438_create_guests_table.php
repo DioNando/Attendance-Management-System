@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone')->nullable();
-            $table->string('company')->nullable();
+            // $table->string('company')->nullable();
             $table->uuid('qr_code')->unique();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->boolean('invitation_sent')->default(false);

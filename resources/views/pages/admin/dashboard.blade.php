@@ -1,5 +1,6 @@
 <x-app-layout>
-    <section class="lg:pr-80">
+    {{-- <section class="lg:pr-80"> --}}
+    <section>
         {{-- * Dashboard header --}}
         <div>
             <x-slot name="header">
@@ -13,12 +14,11 @@
             </x-slot>
         </div>
         {{-- * Dashboard content --}}
-       <livewire:pages.admin.guest-list />
 
 
     </section>
     {{-- * Activity feed  --}}
-    <aside
+    {{-- ? <aside
         class="dark:bg-gray-800 lg:fixed lg:top-16 lg:right-0 lg:bottom-0 lg:w-80 lg:overflow-y-auto lg:border-l lg:border-gray-200 dark:lg:border-gray-600">
         <header
             class="flex items-center justify-between border-b border-gray-200 dark:border-gray-600 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
@@ -26,15 +26,6 @@
             <a href="#" class="text-sm font-semibold text-blue-600 hover:text-blue-700">Voir tout</a>
         </header>
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-600">
-            {{-- @foreach ($activities as $activity)
-                <x-dashboard.activity-item
-                    :user="$activity['user']"
-                    :time="$activity['time']"
-                    :action="$activity['action']"
-                    :highlight="$activity['highlight']"
-                    :type="$activity['type']"
-                />
-            @endforeach --}}
         </ul>
-    </aside>
+    </aside> --}}
 </x-app-layout>

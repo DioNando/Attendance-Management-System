@@ -12,7 +12,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.events.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.events.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('pages.events.show', compact('event'));
     }
 
     /**
@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('livewire.pages.events.edit', compact('event'));
     }
 
     /**

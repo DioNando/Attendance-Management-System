@@ -48,7 +48,7 @@ new class extends Component {
                     <x-heroicon-o-moon class="size-6" />
                 </button>
             </div>
-            @livewire('base.notifications')
+            {{-- @livewire('base.notifications') --}}
 
             <!-- Separator -->
             <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200 dark:bg-gray-700" aria-hidden="true"></div>

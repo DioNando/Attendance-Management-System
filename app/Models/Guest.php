@@ -17,7 +17,7 @@ class Guest extends Model
         'last_name',
         'email',
         'phone',
-        'company',
+        // 'company',
         'qr_code',
         'event_id',
         'invitation_sent',
