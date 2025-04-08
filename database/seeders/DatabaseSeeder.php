@@ -13,22 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Créer un utilisateur admin par défaut
-        User::factory()->create([
-            'last_name' => 'Test User',
-            'first_name' => 'Test',
-            'email' => 'test@example.com',
-            'role' => 'admin',
-        ]);
-
         // Créer un utilisateur pour chaque rôle
         foreach (UserRole::all() as $role) {
             User::factory()->create([
-            'last_name' => 'User ' . $role->value,
-            'first_name' => ucfirst($role->value),
-            'email' => $role->value . '@example.com',
-            'role' => $role->value,
+                'last_name' => 'User ' . $role->value,
+                'first_name' => ucfirst($role->value),
+                'email' => $role->value . '@example.com',
+                'role' => $role->value,
             ]);
         }
+
+        $this->call([
+            EventSeeder::class,
+        ]);
     }
 }

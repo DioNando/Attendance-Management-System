@@ -12,12 +12,12 @@
                     <x-table.cell content="{{ $guest->email }}" />
                     <x-table.cell content="{{ $guest->phone }}" />
                     <x-table.cell content="{{ $guest->qr_code }}" />
-                    <x-table.cell class="w-fit">
-                        <div class="flex gap-2 justify-center">
-                            <a href="{{ route('admin.guests.edit', $guest->id) }}"><x-heroicon-o-pencil
-                                    class="size-5" /></a>
-                            <a href="{{ route('admin.guests.show', $guest) }}"><x-heroicon-o-chevron-right
-                                    class="size-5" /></a>
+                    <x-table.cell class="w-fit px-5">
+                        <div class="flex gap-3 justify-center">
+                            <a href="{{ route('admin.guests.edit', $event->id) }}"
+                                class="text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>
+                            <a href="{{ route('admin.guests.show', $event) }}"
+                                class="text-blue-700 dark:text-blue-300 hover:text-blue-500">Consulter</a>
                         </div>
                     </x-table.cell>
                 </tr>
@@ -30,4 +30,9 @@
             @endforelse
         </x-table.body>
     </x-table.group>
+    {{-- <div class="flex justify-end mt-4">
+        @if ($guests->hasPages())
+            {{ $guests->links() }}
+        @endif
+    </div> --}}
 </div>

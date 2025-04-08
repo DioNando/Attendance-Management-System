@@ -67,44 +67,55 @@ class GuestController extends Controller
     }
 
     /**
+     * Affiche le formulaire de modification d'un invité
+     */
+    public function edit(Guest $guest)
+    {
+        $event = $guest->event;
+        return view('pages.guests.edit', compact('guest', 'event'));
+    }
+
+    /**
+     * Met à jour les informations d'un invité
+     */
+    public function update(Request $request, Guest $guest)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:255',
+        ]);
+
+        $guest->update($validated);
+
+        return redirect()->route('admin.events.show', $guest->event)
+            ->with('success', 'Invité modifié avec succès.');
+    }
+
+    /**
+     * Supprime un invité
+     */
+    public function destroy(Guest $guest)
+    {
+        $event = $guest->event;
+        $guest->delete();
+
+        return redirect()->route('admin.events.show', $event)
+            ->with('success', 'Invité supprimé avec succès.');
+    }
+
+    /**
      * Importe des invités à partir d'un fichier CSV
+     *
+     * Note: Cette fonctionnalité est maintenant gérée par le composant Livewire Import
      */
     public function import(Request $request, Event $event)
     {
-        $request->validate([
-            'guests_file' => 'required|file|mimes:csv,txt|max:2048',
-        ]);
-
-        $file = $request->file('guests_file');
-        $path = $file->getRealPath();
-
-        $guestsData = array_map('str_getcsv', file($path));
-        $headers = array_shift($guestsData);
-
-        $guestsAdded = 0;
-
-        foreach ($guestsData as $guestData) {
-            $guestData = array_combine($headers, $guestData);
-
-            $guest = $event->guests()->create([
-                'first_name' => $guestData['first_name'],
-                'last_name' => $guestData['last_name'],
-                'email' => $guestData['email'],
-                'phone' => $guestData['phone'] ?? null,
-                'company' => $guestData['company'] ?? null,
-                'qr_code' => Str::uuid(),
-            ]);
-
-            // Génère le QR code pour cet invité si le service est disponible
-            if (method_exists($this->qrCodeService, 'generateForGuest')) {
-                $this->qrCodeService->generateForGuest($guest);
-            }
-
-            $guestsAdded++;
-        }
-
+        // Redirecting to the event page, as this is now handled by Livewire
         return redirect()->route('admin.events.show', $event)
-            ->with('success', "$guestsAdded invités importés avec succès.");
+            ->with('info', 'Veuillez utiliser le formulaire d\'importation sur cette page.');
     }
 
     /**
@@ -120,48 +131,5 @@ class GuestController extends Controller
 
         return redirect()->route('admin.events.show', $event)
             ->with('success', 'Invitations en cours d\'envoi à ' . $guests->count() . ' invités.');
-    }
-
-    /**
-     * Exporte la liste des invités d'un événement au format CSV
-     *
-     * @param Event $event
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function export(Event $event)
-    {
-        $fileName = 'invites_' . $event->slug . '_' . date('Y-m-d') . '.csv';
-        $guests = $event->guests()->get();
-
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-        ];
-
-        $columns = ['first_name', 'last_name', 'email', 'phone', 'company', 'invitation_sent'];
-
-        $callback = function() use($guests, $columns) {
-            $file = fopen('php://output', 'w');
-
-            // Ajoute la ligne d'en-tête
-            fputcsv($file, $columns);
-
-            // Ajoute les données
-            foreach ($guests as $guest) {
-                $row = [];
-                foreach ($columns as $column) {
-                    if ($column == 'invitation_sent') {
-                        $row[] = $guest->$column ? 'Oui' : 'Non';
-                    } else {
-                        $row[] = $guest->$column;
-                    }
-                }
-                fputcsv($file, $row);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
     }
 }

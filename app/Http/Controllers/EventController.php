@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('livewire.pages.events.edit', compact('event'));
+        return view('pages.events.edit', compact('event'));
     }
 
     /**

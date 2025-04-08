@@ -17,7 +17,7 @@ class Create extends Component
     public function store()
     {
         $this->form->store();
-        session()->flash('message', 'Event created successfully.');
+        session()->flash('message', 'Événement créé avec succès.');
         return redirect()->route('admin.events.index');
     }
 

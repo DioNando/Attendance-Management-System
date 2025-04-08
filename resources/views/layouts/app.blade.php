@@ -31,13 +31,8 @@
 
 <body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
     <div id="app" x-data="{ open: false }" class="flex h-full">
-        {{-- <livewire:layout.navigation /> --}}
-        <x-layout.sidebar />
+        {{-- <x-layout.sidebar /> --}}
         <!-- Page Content -->
-        {{-- <div class="lg:pl-72"> --}}
-        {{-- <div class="lg:w-72">
-            Menu
-        </div> --}}
         <div class="flex-1 overflow-auto">
             <livewire:layout.navbar />
             <main class="py-8">

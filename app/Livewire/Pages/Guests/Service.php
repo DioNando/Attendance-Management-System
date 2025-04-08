@@ -40,7 +40,7 @@ class Service extends Form
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:guests,email',
+            'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:255',
             'event_id' => 'required|exists:events,id',
@@ -79,12 +79,12 @@ class Service extends Form
         ]);
 
         // Ensuite, récupérer le service via le container
-        $qrCodeService = app(QrCodeService::class);
+        // $qrCodeService = app(QrCodeService::class);
 
         // Générer le QR code
-        $qrCodeService->generateForGuest($guest);
+        // $qrCodeService->generateForGuest($guest);
 
-        return $guest;
+        // return $guest;
     }
 
     public function update()

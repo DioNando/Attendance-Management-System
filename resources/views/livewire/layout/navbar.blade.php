@@ -20,16 +20,31 @@ new class extends Component {
         sm:gap-x-6 sm:px-6 lg:px-8
         dark:border-gray-700 dark:bg-gray-800">
 
-    <button @click="open = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden dark:text-gray-300">
+    {{-- <button @click="open = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden dark:text-gray-300">
         <span class="sr-only">Ouvrir</span>
         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
             data-slot="icon">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
-    </button>
+    </button> --}}
+
+    {{-- <div class="flex gap-3">
+        <x-layout.link route="dashboard" icon="user-group" label="Tableau de bord" />
+        <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
+    </div> --}}
+    <ul class="flex gap-6 text-gray-900 dark:text-gray-100 ">
+        <li>
+            <a href="{{ route('dashboard') }}" class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-home class="size-6" /> <span
+                    class="ml-2 hidden md:block">Accueil</span></a>
+        </li>
+        <li>
+            <a href="{{ route('admin.events.index') }}" class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-calendar-days class="size-6" /> <span
+                    class="ml-2 hidden md:block">Evènements</span></a>
+        </li>
+    </ul>
 
     <!-- Separator -->
-    <div class="h-6 w-px bg-gray-200 lg:hidden dark:bg-gray-700" aria-hidden="true"></div>
+    {{-- <div class="h-6 w-px bg-gray-200 lg:hidden dark:bg-gray-700" aria-hidden="true"></div> --}}
 
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         {{-- ? @livewire('base.search') --}}
@@ -67,9 +82,9 @@ new class extends Component {
                         <span x-text="T"></span>
                     </div> --}}
                     <span class="flex lg:items-center">
-                        <span class="flex-shrink-0 ml-4 text-sm/6 font-semibold text-gray-900 dark:text-gray-200" aria-hidden="true"
-                            x-data="{{ json_encode(['nom' => auth()->user()->first_name]) }}" x-text="nom"
-                            x-on:profile-updated.window="nom = $event.detail.nom"></span>
+                        <span class="flex-shrink-0 ml-4 text-sm/6 font-semibold text-gray-900 dark:text-gray-200"
+                            aria-hidden="true" x-data="{{ json_encode(['name' => auth()->user()->last_name . ' ' . auth()->user()->first_name]) }}" x-text="name"
+                            x-on:profile-updated.window="name = $event.detail.name"></span>
                         <svg class="ml-2 size-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path fill-rule="evenodd"
@@ -87,6 +102,9 @@ new class extends Component {
                     <a href="{{ route('profile') }}" wire:navigate
                         class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
                         role="menuitem" tabindex="-1" id="user-menu-item-0">Mon profil</a>
+                    <a href="{{ route('admin.users.index') }}" wire:navigate
+                        class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
+                        role="menuitem" tabindex="-1" id="user-menu-item-0">Utilisateurs</a>
                     <a wire:click="logout"
                         class="block px-3 py-1 text-sm/6 text-gray-900 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700"
                         role="menuitem" tabindex="-1" id="user-menu-item-1">Déconnexion</a>

@@ -24,14 +24,11 @@
                         <ul role="list" class="flex flex-1 flex-col gap-y-7">
                             <li>
                                 <ul role="list" class="-mx-2 space-y-1">
-                                    {{-- <li>
-                                        <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
-                                    </li> --}}
                                     <li>
-                                        <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
+                                        <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
                                     </li>
                                     <li>
-                                        <x-layout.link route="admin.guests.index" icon="user-group" label="Invités" />
+                                        <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
                                     </li>
                                     <li>
                                         <x-layout.link route="admin.users.index" icon="user-group"
@@ -60,14 +57,11 @@
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li>
                         <ul role="list" class="-mx-2 space-y-1">
-                            {{-- <li>
-                                <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
-                            </li> --}}
                             <li>
-                                <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
+                                <x-layout.link route="dashboard" icon="chart-bar" label="Tableau de bord" />
                             </li>
                             <li>
-                                <x-layout.link route="admin.guests.index" icon="user-group" label="Invités" />
+                                <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
                             </li>
                             <li>
                                 <x-layout.link route="admin.users.index" icon="user" label="Utilisateurs" />

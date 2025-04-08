@@ -36,7 +36,6 @@ class Service extends Form
             'location' => 'nullable|string|max:255',
             'start_date' => 'date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-
         ];
     }
 
@@ -48,6 +47,7 @@ class Service extends Form
         $this->location = $event->location;
         $this->start_date = $event->start_date;
         $this->end_date = $event->end_date;
+        $this->organizer_id = $event->organizer_id;
     }
 
     public function store()
