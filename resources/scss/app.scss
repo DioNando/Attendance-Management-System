@@ -1,0 +1,82 @@
+@use "tailwindcss";
+
+// :root {
+//     --color-blue-50: oklch(0.97 0.01 250);
+//     --color-blue-100: oklch(0.93 0.02 250);
+//     --color-blue-200: oklch(0.88 0.04 250);
+//     --color-blue-300: oklch(0.8 0.07 250);
+//     --color-blue-400: oklch(0.7 0.1 250);
+//     --color-blue-500: oklch(0.6 0.13 250);
+//     --color-blue-600: oklch(0.5 0.15 250);
+//     --color-blue-700: oklch(0.42 0.14 250);
+//     --color-blue-800: oklch(0.36 0.12 250);
+//     --color-blue-900: oklch(0.3 0.1 250);
+//     --color-blue-950: oklch(0.22 0.08 250);
+// }
+
+// A utiliser qu'avec des paramètres
+// Pour appeler un mixin
+// @include pseudo-el(block, absolute, "")
+
+@layer utilities {
+    .scrollbar-none {
+        scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-none::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
+
+    .scrollbar-custom {
+        /* Largeur de la scrollbar */
+        // scrollbar-width: thin; /* Pour Firefox */
+
+        /* Pour Chrome, Edge et Safari */
+        &::-webkit-scrollbar {
+            width: 0.25rem; /* Largeur réduite de la scrollbar */
+            height: 0.25rem;
+        }
+
+        /* Style de la piste (track) de la scrollbar */
+        &::-webkit-scrollbar-track {
+            // background-color: #f1f1f1;
+        }
+
+        /* Style du "thumb" (la partie mobile de la scrollbar) */
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-blue-500);
+            border-radius: 1rem;
+        }
+
+        /* Quand on survole le thumb */
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: var(--color-blue-600);
+        }
+    }
+}
+
+@mixin pseudo-el($display: block, $position: absolute, $content: "") {
+    content: $content;
+    display: $display;
+    position: $position;
+}
+
+@mixin text-overflow-hidden($max-width) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: $max-width;
+}
+
+@mixin paragraph-overflow-hidden($number_of_line) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: $number_of_line;
+    -webkit-box-orient: vertical;
+}
+
+button,
+a {
+    &:hover {
+        cursor: pointer;
+    }
+}
