@@ -1,46 +1,77 @@
 <div>
     @php
-        $headers = ['Nom', 'Prénom', 'Email', 'Téléphone', 'Qr Code', 'Invitation', 'Action invitation', ''];
+        $headers = ['Nom', 'Prénom', 'Email', 'Téléphone', 'Qr Code', 'Invitation', ''];
         $empty = 'Aucun invité trouvé';
     @endphp
     <x-table.group :headers="$headers">
         <x-table.body class="bg-white dark:bg-gray-900">
             @forelse($guests as $guest)
                 <tr>
-                    <x-table.cell content="{{ $guest->first_name }}" />
-                    <x-table.cell content="{{ $guest->last_name }}" />
-                    <x-table.cell content="{{ $guest->email }}" />
-                    <x-table.cell content="{{ $guest->phone }}" />
+                    <x-table.cell>
+                        <div class="flex items-center">
+                            <span>{{ $guest->first_name }}</span>
+                        </div>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <div class="flex items-center">
+                            <span>{{ $guest->last_name }}</span>
+                        </div>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <div class="flex items-center">
+                            <span>{{ $guest->email }}</span>
+                        </div>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <div class="flex items-center">
+                            <span>{{ $guest->phone ?: 'Non renseigné' }}</span>
+                        </div>
+                    </x-table.cell>
                     <x-table.cell>
                         <div>
+                            <div class="flex items-center mb-1">
+                                <x-heroicon-o-qr-code class="size-5 text-blue-500 dark:text-blue-400 mr-2" />
+                                <span class="text-sm text-blue-600 dark:text-blue-400">QR Code</span>
+                            </div>
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $guest->qr_code }}"
-                                alt="QR Code pour {{ $guest->first_name }} {{ $guest->last_name }}" class="w-20 h-20" />
-                            {{-- <p class="mt-2">{{ $guest->qr_code }}</p> --}}
+                                alt="QR Code pour {{ $guest->first_name }} {{ $guest->last_name }}"
+                                class="w-20 h-20 flex-shrink-0 p-1 border-2 border-gray-200 dark:border-gray-700" />
                         </div>
                     </x-table.cell>
                     <x-table.cell>
-                        <div
-                            class="flex gap-3 items-center {{ $guest->invitation_sent ? ' text-green-500' : ' text-red-500' }}">
-                            <span>
-                                {{ $guest->invitation_sent ? 'Envoyé le ' . $guest->invitation_sent_at->format('d/m/Y') : 'Non envoyé' }}
-                            </span>
-                            {{-- <x-heroicon-o-paper-airplane class="size-5" /> --}}
+                        <div class="flex flex-col gap-2">
+                            <livewire:pages.guests.single-invitation :guest="$guest"
+                                :wire:key="'invitation-'.$guest->id" />
+                            <div class="flex items-center">
+                                @if ($guest->invitation_sent)
+                                    <div class="flex items-center text-green-600 dark:text-green-400">
+                                        <x-heroicon-o-check-circle class="size-5 mr-2" />
+                                        <span>Envoyé {{ $guest->invitation_sent_at->diffForHumans() }}</span>
+                                    </div>
+                                @else
+                                    <div class="flex items-center text-red-600 dark:text-red-400">
+                                        <x-heroicon-o-x-circle class="size-5 mr-2" />
+                                        <span>Non envoyé</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </x-table.cell>
-                    <x-table.cell>
+                    {{-- <x-table.cell>
                         <livewire:pages.guests.single-invitation :guest="$guest"
                             :wire:key="'invitation-'.$guest->id" />
-                    </x-table.cell>
+                    </x-table.cell> --}}
                     <x-table.cell class="w-fit px-5 text-sm">
                         <div class="flex gap-3 justify-center">
-
-                            {{-- ! <a href="{{ route('admin.guests.show', $guest) }}"
-                                class="text-blue-700 dark:text-blue-300 hover:text-blue-500">Consulter</a> --}}
                             <a href="{{ route('admin.guests.edit', $guest) }}"
-                                class="text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>
+                                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-orange-500">
+                                Modifier
+                            </a>
                             <div x-data="{ openDeleteModal: false }">
                                 <button @click="openDeleteModal = true"
-                                    class="text-red-700 dark:text-red-300 hover:text-red-500">Supprimer</button>
+                                    class="flex items-center text-red-700 dark:text-red-300 hover:text-red-500">
+                                    Supprimer
+                                </button>
 
                                 <!-- Modal de confirmation pour suppression -->
                                 <div x-show="openDeleteModal" x-cloak

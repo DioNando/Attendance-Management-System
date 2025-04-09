@@ -6,7 +6,7 @@
     'class' => '',
     'live' => true,
     'required' => false,
-    'placeholder' => null
+    'placeholder' => null,
 ])
 
 @php
@@ -31,27 +31,21 @@
         $class;
 
     // Determine placeholder text
-    $placeholderText = $placeholder ?? "Sélectionner une option";
+    $placeholderText = $placeholder ?? 'Sélectionner une option';
 @endphp
 
-<div class="mt-2 grid grid-cols-1">
+<div class="mt-2 grid grid-cols-1 {{ $class }} ">
     <select
         @if ($live) wire:model.live.250ms="{{ $name }}" @else wire:model="{{ $name }}" @endif
-        id="{{ $name }}"
-        name="{{ $name }}"
-        class="{{ $inputClasses }}"
-        @if ($required) required @endif
-    >
+        id="{{ $name }}" name="{{ $name }}" class="{{ $inputClasses }}"
+        @if ($required) required @endif>
         @if (!$required)
             <option value="">{{ $placeholderText }}</option>
         @endif
 
         @if ($enum && method_exists($enum, 'cases'))
-            @foreach($enum::cases() as $case)
-                <option
-                    value="{{ $case->value }}"
-                    @if ($selected == $case->value) selected @endif
-                >
+            @foreach ($enum::cases() as $case)
+                <option value="{{ $case->value }}" @if ($selected == $case->value) selected @endif>
                     @if (method_exists($case, 'label'))
                         {{ $case->label() }}
                     @else
@@ -65,6 +59,5 @@
     </select>
 
     <x-heroicon-o-chevron-down
-        class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
-    />
+        class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
 </div>
