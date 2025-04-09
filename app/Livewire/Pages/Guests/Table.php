@@ -16,6 +16,8 @@ class Table extends Component
 
     protected $listeners = [
         'guestImported' => 'updatePage',
+        'invitationsSent' => 'updatePage',
+        'invitationSent' => 'updatePage',
         'searchUpdated' => 'updateSearch',
     ];
 
@@ -43,8 +45,8 @@ class Table extends Component
                 }
             })
             ->orderBy('first_name')
-            // ->paginate($this->perPage);
-            ->get();
+            ->paginate($this->perPage);
+            // ->get();
 
         return view('livewire.pages.guests.table', compact('guests'));
     }

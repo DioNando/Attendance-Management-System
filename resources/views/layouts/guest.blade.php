@@ -29,6 +29,9 @@
 </head>
 
 <body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-50">
+    <!-- Flash Messages -->
+    <x-flash-messages />
+
     <div class="fixed right-0 p-6">
         <div x-data="{ theme: localStorage.getItem('theme') || 'system' }" class="p-4 relative flex items-center justify-center">
             <button x-show="theme === 'dark' || theme === 'system'"

@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  maildev:
+    image: maildev/maildev
+    container_name: attendance_maildev
+    ports:
+      - "1080:1080"  # Interface web de MailDev
+      - "1025:1025"  # Serveur SMTP
+    environment:
+      - MAILDEV_INCOMING_USER=admin
+      - MAILDEV_INCOMING_PASS=password
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

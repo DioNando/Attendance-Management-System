@@ -30,6 +30,9 @@
 </head>
 
 <body class="font-sans antialiased h-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
+    <!-- Flash Messages -->
+    <x-flash-messages />
+
     <div id="app" x-data="{ open: false }" class="flex h-full">
         {{-- <x-layout.sidebar /> --}}
         <!-- Page Content -->
@@ -49,7 +52,8 @@
                 </div>
             </main>
         </div>
-        <x-alert.notification />
+        {{-- Remplacé par notre nouveau composant --}}
+        {{-- <x-alert.notification /> --}}
     </div>
 </body>
 
