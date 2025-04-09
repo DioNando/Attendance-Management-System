@@ -25,7 +25,7 @@
                         <div class="flex gap-3 justify-center">
 
                             {{-- ! <a href="{{ route('admin.guests.show', $guest) }}"
-                                class="text-blue-700 dark:text-blue-300 hover:text-blue-500">Consulter</a> --}}
+                                class="text-blue-700 dark:text-blue-300 hover:text-blue-500">Consulter</a>--}}
                             <a href="{{ route('admin.guests.edit', $guest) }}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>
                             <div x-data="{ openDeleteModal: false }">
