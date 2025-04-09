@@ -24,6 +24,11 @@ class Event extends Model
         'end_date' => 'datetime',
     ];
 
+    public function organizer()
+    {
+        return $this->belongsTo(User::class, 'organizer_id');
+    }
+
     public function guests(): HasMany
     {
         return $this->hasMany(Guest::class);

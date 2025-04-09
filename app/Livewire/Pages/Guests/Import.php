@@ -56,7 +56,7 @@ class Import extends Component
                 'last_name' => $guestData['last_name'],
                 'email' => $guestData['email'],
                 'phone' => $guestData['phone'] ?? null,
-                'company' => $guestData['company'] ?? null,
+                // 'company' => $guestData['company'] ?? null,
                 'qr_code' => Str::uuid(),
             ]);
 

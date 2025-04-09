@@ -28,7 +28,7 @@
                             {{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(now(), ['parts' => 1, 'short' => true]) }}
                         @endif
                     </x-table.cell>
-                    <x-table.cell class="w-fit px-5">
+                    <x-table.cell class="w-fit px-5 text-sm ">
                         <div class="flex gap-3 justify-center">
                             <a href="{{ route('admin.events.edit', $event->id) }}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>

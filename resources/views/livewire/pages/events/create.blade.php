@@ -10,22 +10,22 @@
                 </div>
                 <div class="col-span-full">
                     <x-form.group name="form.description" label="Description">
-                        <x-form.textarea name="form.description" />
+                        <x-form.textarea name="form.description" :live="true" />
                     </x-form.group>
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.location" label="Localisation">
-                        <x-form.input name="form.location" />
+                        <x-form.input name="form.location" :live="true" />
                     </x-form.group>
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.start_date" label="Début">
-                        <x-form.input type="date" name="form.start_date" />
+                        <x-form.input type="date" name="form.start_date" :live="true" />
                     </x-form.group>
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.end_date" label="Fin">
-                        <x-form.input type="date" name="form.end_date" />
+                        <x-form.input type="date" name="form.end_date" :live="true" />
                     </x-form.group>
                 </div>
 

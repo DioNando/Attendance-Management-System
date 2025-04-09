@@ -34,6 +34,7 @@ class Table extends Component
                 }
             })
             ->withCount(['guests'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('livewire.pages.events.table', compact('events'));

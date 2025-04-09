@@ -45,8 +45,8 @@ class Service extends Form
         $this->name = $event->name;
         $this->description = $event->description;
         $this->location = $event->location;
-        $this->start_date = $event->start_date;
-        $this->end_date = $event->end_date;
+        $this->start_date = $event->start_date ? $event->start_date->format('Y-m-d') : null;
+        $this->end_date = $event->end_date ? $event->end_date->format('Y-m-d') : null;
         $this->organizer_id = $event->organizer_id;
     }
 

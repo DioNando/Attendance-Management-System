@@ -19,7 +19,7 @@
     $mainClasses =
         'flex items-center gap-4 rounded-lg border border-dashed ' .
         ($isInvalid ? 'border-red-500 dark:border-red-400' : 'border-gray-900/25 dark:border-gray-600') .
-        ' px-6 py-10 ' .
+        ' px-4 py-4 ' .
         $class;
 @endphp
 

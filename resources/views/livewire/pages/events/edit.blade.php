@@ -10,29 +10,30 @@
                 </div>
                 <div class="col-span-full">
                     <x-form.group name="form.description" label="Description">
-                        <x-form.textarea name="form.description" />
+                        <x-form.textarea name="form.description" :live="true" />
                     </x-form.group>
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.location" label="Localisation">
-                        <x-form.input name="form.location" />
+                        <x-form.input name="form.location" :live="true" />
                     </x-form.group>
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.start_date" label="Début">
-                        <x-form.input type="date" name="form.start_date" />
+                        <x-form.input type="date" name="form.start_date" :live="true" />
                     </x-form.group>
+                    {{-- {{ $this->form->start_date->format('d/m/Y') }} --}}
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.end_date" label="Fin">
-                        <x-form.input type="date" name="form.end_date" />
+                        <x-form.input type="date" name="form.end_date" :live="true" />
                     </x-form.group>
                 </div>
 
             </div>
         </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <x-button.primary type="submit" color="blue">Enregistrer</x-button.primary>
+            <x-button.primary type="submit" color="blue">Mettre à jour</x-button.primary>
         </div>
     </div>
 </x-form.form>

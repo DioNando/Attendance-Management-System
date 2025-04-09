@@ -18,7 +18,7 @@ class Export extends Component
         $guests = $this->event->guests()->get();
 
         // Define columns to export
-        $columns = ['first_name', 'last_name', 'email', 'phone', 'company', 'invitation_sent'];
+        $columns = ['first_name', 'last_name', 'email', 'phone', 'invitation_sent'];
 
         // Generate CSV content
         $csvContent = $this->generateCsvContent($guests, $columns);

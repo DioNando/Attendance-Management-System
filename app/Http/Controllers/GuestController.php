@@ -107,18 +107,6 @@ class GuestController extends Controller
     }
 
     /**
-     * Importe des invités à partir d'un fichier CSV
-     *
-     * Note: Cette fonctionnalité est maintenant gérée par le composant Livewire Import
-     */
-    public function import(Request $request, Event $event)
-    {
-        // Redirecting to the event page, as this is now handled by Livewire
-        return redirect()->route('admin.events.show', $event)
-            ->with('info', 'Veuillez utiliser le formulaire d\'importation sur cette page.');
-    }
-
-    /**
      * Envoie des invitations par email aux invités qui n'en ont pas encore reçu
      */
     public function sendInvitations(Event $event)

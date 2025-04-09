@@ -20,7 +20,7 @@
                 </div>
                 <div class="sm:col-span-full">
                     <x-form.group name="form.phone" label="Téléphone">
-                        <x-form.input name="form.phone" />
+                        <x-form.input name="form.phone" :live="true" />
                     </x-form.group>
                 </div>
                 {{-- <div class="sm:col-span-full">

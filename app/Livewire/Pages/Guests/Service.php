@@ -24,8 +24,8 @@ class Service extends Form
     #[Validate]
     public $phone = '';
 
-    #[Validate]
-    public $company = '';
+    // #[Validate]
+    // public $company = '';
 
     public $qr_code = null;
 
@@ -42,7 +42,7 @@ class Service extends Form
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'company' => 'nullable|string|max:255',
+            // 'company' => 'nullable|string|max:255',
             'event_id' => 'required|exists:events,id',
         ];
     }
@@ -54,7 +54,7 @@ class Service extends Form
         $this->last_name = $guest->last_name;
         $this->email = $guest->email;
         $this->phone = $guest->phone;
-        $this->company = $guest->company;
+        // $this->company = $guest->company;
         $this->qr_code = $guest->qr_code;
         $this->event_id = $guest->event_id;
         $this->invitation_sent = $guest->invitation_sent;
@@ -71,7 +71,7 @@ class Service extends Form
             'last_name' => $this->last_name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'company' => $this->company,
+            // 'company' => $this->company,
             'qr_code' => Str::uuid()->toString(), // Generate UUID and convert to string
             'event_id' => $this->event_id,
             'invitation_sent' => false, // Explicitly set to false
@@ -97,7 +97,7 @@ class Service extends Form
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'phone' => $this->phone,
-                'company' => $this->company,
+                // 'company' => $this->company,
                 'event_id' => $this->event_id,
                 // Don't update qr_code here
             ]);

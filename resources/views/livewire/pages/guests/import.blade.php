@@ -1,7 +1,7 @@
 <div>
     <form wire:submit="import">
         <div class="mb-4">
-            <label for="guestsFile" class="block text-sm font-medium text-gray-700">
+            <label for="guestsFile" class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('Fichier CSV des invités') }}
             </label>
             <x-form.file name="guestsFile" placeholder="Sélectionner un fichier CSV" accept=".csv,.txt"
@@ -11,7 +11,7 @@
             @enderror
 
             <p class="mt-1 text-xs text-gray-500">
-                {{ __('Format attendu: CSV avec en-têtes first_name, last_name, email, phone (optionnel), company (optionnel)') }}
+                {{ __('Format attendu: CSV avec en-têtes first_name, last_name, email, phone (optionnel)') }}
             </p>
         </div>
 
