@@ -28,8 +28,9 @@ class InvitationEmail extends Mailable
         $this->guest = $guest;
 
         // Générer la carte QR stylisée
-        // $qrCodeService = app(QrCodeService::class);
-        // $this->qrCardPath = $qrCodeService->generateStyledCardForGuest($guest);
+        $qrCodeService = app(QrCodeService::class);
+        // ! $this->qrCardPath = $qrCodeService->generateStyledCardForGuest($guest);
+        $this->qrCardPath = $guest->qr_code . '.png';
     }
 
     /**
@@ -52,7 +53,7 @@ class InvitationEmail extends Mailable
             view: 'emails.invitation',
             with: [
                 'guest' => $this->guest,
-                // 'qrCardPath' => $this->qrCardPath,
+                'qrCardPath' => $this->qrCardPath,
             ],
         );
     }

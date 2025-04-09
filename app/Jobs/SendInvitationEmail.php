@@ -16,19 +16,10 @@ class SendInvitationEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // protected $guest;
-
     /**
      * Create a new job instance.
      */
-    // public function __construct(Guest $guest)
-    // {
-    //     $this->guest = $guest;
-    // }
-    public function __construct(protected Guest $guest)
-    {
-        // $this->guest = $guest;
-    }
+    public function __construct(protected Guest $guest) {}
 
     /**
      * Execute the job.

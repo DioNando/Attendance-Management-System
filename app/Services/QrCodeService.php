@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Guest;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class QrCodeService
 {
@@ -44,6 +44,11 @@ class QrCodeService
      * @param Guest $guest
      * @return string Chemin vers l'image générée
      */
+    // ? public function generateStyledCardForGuest(Guest $guest): string
+    // {
+    //     $path = $guest->qr_code . '.png';
+    //     return $path;
+    // }
     public function generateStyledCardForGuest(Guest $guest): string
     {
         // Générer d'abord le QR code

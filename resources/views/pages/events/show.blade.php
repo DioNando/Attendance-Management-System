@@ -196,6 +196,10 @@
             icon="heroicon-o-plus">
             {{ __('Ajouter des invités') }}
         </x-button.primary>
+        {{-- <x-button.primary color="orange" href="{{ route('admin.guests.send-invitations', $event) }}" responsive
+            icon="heroicon-o-envelope">
+            {{ __('Invitations') }}
+        </x-button.primary> --}}
     </div>
     <livewire:pages.guests.table :event="$event" />
 </x-app-layout>

@@ -182,7 +182,7 @@
                     Télécharger votre QR code
                 </a>
             </div>
-            {{-- <div class="qr-code">
+            {{-- ! <div class="qr-code">
                 <img src="{{ asset('storage/' . $qrCardPath) }}" alt="QR Code personnalisé pour {{ $guest->first_name }} {{ $guest->last_name }}" style="max-width: 100%; height: auto;">
                 <p class="qr-code-caption">Code d'invitation: <strong>{{ $guest->qr_code }}</strong></p>
 
