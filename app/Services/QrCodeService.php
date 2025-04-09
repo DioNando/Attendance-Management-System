@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Guest;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Facades\Image;
 
 class QrCodeService
 {
