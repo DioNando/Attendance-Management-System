@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Guest;
+use App\Services\QrCodeService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,12 +11,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Support\Facades\Storage;
 
 class InvitationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public Guest $guest;
+    public string $qrCardPath;
 
     /**
      * Create a new message instance.
@@ -23,6 +26,10 @@ class InvitationEmail extends Mailable
     public function __construct(Guest $guest)
     {
         $this->guest = $guest;
+
+        // Générer la carte QR stylisée
+        // $qrCodeService = app(QrCodeService::class);
+        // $this->qrCardPath = $qrCodeService->generateStyledCardForGuest($guest);
     }
 
     /**
@@ -45,6 +52,7 @@ class InvitationEmail extends Mailable
             view: 'emails.invitation',
             with: [
                 'guest' => $this->guest,
+                // 'qrCardPath' => $this->qrCardPath,
             ],
         );
     }

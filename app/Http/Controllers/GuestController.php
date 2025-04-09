@@ -45,7 +45,6 @@ class GuestController extends Controller
         return view('pages.guests.edit', compact('guest', 'event'));
     }
 
-
     /**
      * Supprime un invité
      */
@@ -56,5 +55,20 @@ class GuestController extends Controller
 
         return redirect()->route('admin.events.show', $event)
             ->with('success', 'Invité supprimé avec succès.');
+    }
+
+    /**
+     * Envoie des invitations par email aux invités qui n'en ont pas encore reçu
+     */
+    public function sendInvitations(Event $event)
+    {
+        $guests = $event->guests()->where('invitation_sent', false)->get();
+
+        foreach ($guests as $guest) {
+            SendInvitationEmail::dispatch($guest);
+        }
+
+        return redirect()->route('admin.events.show', $event)
+            ->with('success', 'Invitations en cours d\'envoi à ' . $guests->count() . ' invités.');
     }
 }
