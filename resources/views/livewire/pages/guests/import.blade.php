@@ -1,7 +1,7 @@
 <div>
     <form wire:submit="import">
         <div class="mb-4">
-            <label for="guestsFile" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="guestsFile" class="text-lg block font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {{ __('Fichier CSV des invités') }}
             </label>
             <x-form.file name="guestsFile" placeholder="Sélectionner un fichier CSV" accept=".csv,.txt"

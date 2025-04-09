@@ -77,7 +77,7 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              class="fixed top-4 right-4 z-50 flex items-center p-4 mb-4 text-white rounded-lg bg-yellow-600 shadow-lg">
-            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-yellow-500 bg-yellow-100 rounded-lg">
+            <div class="gap-3 inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-yellow-500 bg-yellow-100 rounded-lg">
                 <x-heroicon-o-exclamation-triangle class="w-5 h-5" />
             </div>
             <div class="ml-3 text-sm font-normal">{{ session('warning') }}</div>

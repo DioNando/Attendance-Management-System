@@ -45,7 +45,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/guests/import', [GuestController::class, 'import'])->name('guests.import');
     Route::get('/guests/export', [GuestController::class, 'export'])->name('guests.export');
-    Route::get('/guests/{guest}/send-invitation', [GuestController::class, 'sendInvitation'])->name('guests.send-invitation');
     Route::resource('/guests', GuestController::class);
 });
 // Routes pour la gestion des présences

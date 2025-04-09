@@ -43,6 +43,9 @@ class InvitationEmail extends Mailable
     {
         return new Content(
             view: 'emails.invitation',
+            with: [
+                'guest' => $this->guest,
+            ],
         );
     }
 

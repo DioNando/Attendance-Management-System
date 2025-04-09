@@ -15,19 +15,21 @@
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <span class="truncate max-w-[150px]">{{ $event->description }}</span>
+                            <span
+                                class="truncate max-w-[150px] text-gray-700 dark:text-gray-400">{{ $event->description }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <x-heroicon-o-map-pin class="size-5 text-gray-500 dark:text-gray-400 mr-2" />
-                            <span>{{ $event->location ?: 'Non renseigné' }}</span>
+                            {{-- <x-heroicon-o-map-pin class="size-5 text-gray-500 dark:text-gray-400 mr-2" /> --}}
+                            <span
+                                class="text-gray-700 dark:text-gray-400">{{ $event->location ?: 'Non renseigné' }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex gap-2">
                             <a href="{{ route('admin.guests.create', ['event_id' => $event->id]) }}"
-                                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500">
+                                class="flex items-center text-blue-700 dark:text-blue-300 hover:text-blue-500">
                                 <x-heroicon-o-plus-circle class="size-4 mr-1" />
                                 <span>Ajouter</span>
                             </a>
@@ -51,17 +53,15 @@
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <x-heroicon-o-clock class="size-5 text-purple-500 dark:text-purple-400 mr-2" />
+                            <x-heroicon-o-clock class="size-4 text-yellow-500 dark:text-yellow-400 mr-2" />
                             @if ($event->end_date)
-                                <span
-                                    class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs rounded-full">
-                                    {{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(\Carbon\Carbon::parse($event->end_date), ['parts' => 1, 'short' => true]) }}
-                                </span>
+                                <x-badge.item
+                                    text="{{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(\Carbon\Carbon::parse($event->end_date), ['parts' => 1, 'short' => true]) }}"
+                                    color="yellow" />
                             @else
-                                <span
-                                    class="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs rounded-full">
-                                    {{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(now(), ['parts' => 1, 'short' => true]) }}
-                                </span>
+                                <x-badge.item
+                                    text="{{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(now(), ['parts' => 1, 'short' => true]) }}"
+                                    color="yellow" />
                             @endif
                         </div>
                     </x-table.cell>

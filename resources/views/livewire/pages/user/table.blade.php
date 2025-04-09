@@ -11,7 +11,7 @@
 @endif
 
 @php
-    $headers = ['Nom', 'Email', 'Rôle', 'Date de création', 'Actions'];
+    $headers = ['Nom', 'Rôle', 'Date de création', 'Actions'];
     $empty = 'Aucun utilisateur trouvé';
 @endphp
 
@@ -21,43 +21,24 @@
             @forelse($users as $user)
                 <tr>
                     <x-table.cell>
-                        <div class="flex items-center">
+                        <div class="flex flex-col gap-1">
                             <span class="font-medium">{{ $user->last_name }} {{ $user->first_name }}</span>
-                        </div>
-                    </x-table.cell>
-                    <x-table.cell>
-                        <div class="flex items-center">
                             <span class="text-gray-700 dark:text-gray-400">{{ $user->email }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
-                        {{-- <div class="flex items-center">
+                        <div class="flex items-center">
                             @php
                                 $roleColors = [
-                                    'admin' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-                                    'organizer' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-                                    'staff' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                                    'scanner' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                    'Administrateur' => 'red',
+                                    'Organisateur' => 'blue',
+                                    'Staff' => 'green',
+                                    'Scanner' => 'yellow',
+                                    'Invité' => 'gray',
                                 ];
-                                $roleIcons = [
-                                    'admin' => 'shield',
-                                    'organizer' => 'user-group',
-                                    'staff' => 'clipboard-document-list',
-                                    'scanner' => 'qr-code',
-                                ];
-                                $roleColor = $roleColors[$user->role->label()] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
-                                $roleIcon = $roleIcons[$user->role->label()] ?? 'user';
+                                $roleColor = $roleColors[$user->role->label()] ?? 'gray';
                             @endphp
-                            <span class="flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full {{ $roleColor }}">
-                                <x-dynamic-component :component="'heroicon-o-' . $roleIcon" class="size-4" />
-                                {{ ucfirst($user->role->label()) }}
-                            </span>
-                        </div> --}}
-                        <div class="flex items-center">
-                            <span
-                                class="flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                {{ $user->role->label() }}
-                            </span>
+                            <x-badge.item :text="$user->role->label()" :color="$roleColor" />
                         </div>
                     </x-table.cell>
                     <x-table.cell>

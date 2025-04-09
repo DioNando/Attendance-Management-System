@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\ContactGuest;
 use App\Models\Guest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,14 +16,18 @@ class SendInvitationEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $guest;
+    // protected $guest;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(Guest $guest)
+    // public function __construct(Guest $guest)
+    // {
+    //     $this->guest = $guest;
+    // }
+    public function __construct(protected Guest $guest)
     {
-        $this->guest = $guest;
+        // $this->guest = $guest;
     }
 
     /**

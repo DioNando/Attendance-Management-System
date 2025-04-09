@@ -10,8 +10,8 @@
             class="flex-auto w-full md:w-2/3 overflow-hidden bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
             <div
                 class="border-b border-gray-200 dark:border-gray-700 bg-blue-200 dark:bg-gray-800 p-4 flex flex-wrap justify-between items-center gap-3">
-                <h2 class="text-lg font-bold text-blue-900 dark:text-blue-400 flex items-center">
-                    <x-heroicon-o-calendar-days class="hidden md:block w-6 h-6 mr-2" />
+                <h2 class="text-lg font-bold text-blue-900 dark:text-blue-400 flex gap-2 items-center">
+                    <x-heroicon-o-calendar-days class="hidden md:block w-6 h-6" />
                     {{ $event->name }}
 
                     @php
@@ -21,32 +21,27 @@
                     @endphp
 
                     @if ($today->lt($startDate))
-                        <span
-                            class="flex-shrink-0 ml-3 px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">À
-                            venir</span>
+                        <x-badge.item text="À venir" color="blue" class="ml-3" />
                     @elseif($today->gt($endDate))
-                        <span
-                            class="flex-shrink-0 ml-3 px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">Terminé</span>
+                        <x-badge.item text="Terminé" color="gray" class="ml-3" />
                     @else
-                        <span
-                            class="flex-shrink-0 ml-3 px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">En
-                            cours</span>
+                        <x-badge.item text="En cours" color="green" class="ml-3" />
                     @endif
                 </h2>
-                <div class="flex space-x-3" x-data="{ openDeleteModal: false }">
+                <div class="flex space-x-3" x-data="{ open: false }">
                     <a href="{{ route('admin.events.edit', $event) }}"
-                        class="inline-flex items-center p-2 text-sm text-blue-700 rounded-lg bg-white/80 border border-blue-300 hover:bg-white hover:text-blue-800 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-600 dark:hover:bg-gray-700 dark:hover:text-blue-300">
+                        class="inline-flex items-center p-2 text-sm text-white rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
                         <x-heroicon-o-pencil class="w-4 h-4" />
                     </a>
-                    <button @click="openDeleteModal = true"
-                        class="inline-flex items-center p-2 text-sm text-red-600 bg-white/80 rounded-lg border border-red-300 hover:bg-white hover:text-red-700 hover:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900 dark:hover:text-red-400 dark:hover:border-red-400">
+                    <button @click="open = true"
+                        class="inline-flex items-center p-2 text-sm text-white rounded-lg bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
                         <x-heroicon-o-trash class="w-4 h-4" />
                     </button>
                     <!-- Modal de confirmation pour suppression -->
-                    <div x-show="openDeleteModal" x-cloak
+                    <div x-show="open" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75 transition-opacity"
                         role="alertdialog" aria-labelledby="modal-title" aria-describedby="modal-description"
-                        aria-modal="true" @keydown.escape.window="openDeleteModal = false">
+                        aria-modal="true" @keydown.escape.window="open = false">
                         <div x-transition
                             class="relative sm:w-full sm:max-w-lg overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl sm:p-6 p-4">
 
@@ -75,7 +70,7 @@
                                     @method('DELETE')
                                     <x-button.primary type="submit" color="red">Supprimer</x-button.primary>
                                 </form>
-                                <div @click="openDeleteModal = false">
+                                <div @click="open = false">
                                     <x-button.outlined type="button" color="gray">Annuler</x-button.outlined>
                                 </div>
                             </div>
@@ -90,13 +85,16 @@
                     <!-- Event Information Accordion -->
                     <div x-data="{ open: false }">
                         <!-- Accordion Header -->
-                        <button @click="open = !open" class="flex w-full items-center justify-between py-2 text-left focus:outline-none">
-                            <span class="text-md font-semibold text-gray-700 dark:text-gray-300">Détails de l'événement</span>
-                            <x-heroicon-o-chevron-down class="w-5 h-5 text-gray-500 dark:text-gray-400" x-bind:class="{'rotate-180': open}" />
+                        <button @click="open = !open"
+                            class="flex w-full items-center justify-between py-2 text-left focus:outline-none">
+                            <span class="text-md font-semibold text-gray-700 dark:text-gray-300">Détails de
+                                l'événement</span>
+                            <x-heroicon-o-chevron-down class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                x-bind:class="{ 'rotate-180': open }" />
                         </button>
 
                         <!-- Accordion Content -->
-                        <div x-show="open" class="space-y-6">
+                        <div x-show="open" x-cloak class="space-y-6">
                             <!-- Event date and time -->
                             <div>
                                 <div class="flex items-center">
@@ -104,8 +102,9 @@
                                         Dates
                                     </dt>
                                     <dd class="text-gray-700 dark:text-gray-300 w-2/3">
-                                        <p>Du {{ $event->start_date->format('d/m/Y') }}
-                                            {{ $event->end_date ? ' au ' . $event->end_date->format('d/m/Y') : '' }}</p>
+                                        <p>Du {{ \Carbon\Carbon::parse($event->start_date)->translatedFormat('d F Y') }}
+                                            {{ $event->end_date ? ' au ' . \Carbon\Carbon::parse($event->end_date)->translatedFormat('d F Y') : '' }}
+                                        </p>
                                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                             {{ $event->end_date ? $event->start_date->diffInDays($event->end_date) + 1 . ' jour(s)' : '1 jour' }}
                                         </p>
@@ -161,7 +160,10 @@
                                     <div class="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded">
                                         <p class="text-sm text-gray-500 dark:text-gray-400 w-1/3">Date de création</p>
                                         <p class="text-sm font-medium text-gray-800 dark:text-gray-200 w-2/3">
-                                            {{ $event->created_at->format('d/m/Y') }}</p>
+                                            {{ \Carbon\Carbon::parse($event->created_at)->translatedFormat('d F Y') }}
+                                            <span
+                                                class="block text-xs text-gray-500">({{ $event->created_at->diffForHumans() }})</span>
+                                        </p>
                                     </div>
                                 </dd>
                             </div>

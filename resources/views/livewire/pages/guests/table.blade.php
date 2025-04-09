@@ -9,22 +9,22 @@
                 <tr>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <span>{{ $guest->first_name }}</span>
+                            <span class="font-medium">{{ $guest->first_name }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <span>{{ $guest->last_name }}</span>
+                            <span class="font-medium">{{ $guest->last_name }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <span>{{ $guest->email }}</span>
+                            <span class="text-gray-700 dark:text-gray-400">{{ $guest->email }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <span>{{ $guest->phone ?: 'Non renseigné' }}</span>
+                            <span class="text-gray-700 dark:text-gray-400">{{ $guest->phone ?: 'Non renseigné' }}</span>
                         </div>
                     </x-table.cell>
                     <x-table.cell>
@@ -44,23 +44,13 @@
                                 :wire:key="'invitation-'.$guest->id" />
                             <div class="flex items-center">
                                 @if ($guest->invitation_sent)
-                                    <div class="flex items-center text-green-600 dark:text-green-400">
-                                        <x-heroicon-o-check-circle class="size-5 mr-2" />
-                                        <span>Envoyé {{ $guest->invitation_sent_at->diffForHumans() }}</span>
-                                    </div>
+                                    <x-badge.item :text="'Envoyé ' . $guest->invitation_sent_at->diffForHumans()" color="green" />
                                 @else
-                                    <div class="flex items-center text-red-600 dark:text-red-400">
-                                        <x-heroicon-o-x-circle class="size-5 mr-2" />
-                                        <span>Non envoyé</span>
-                                    </div>
+                                    <x-badge.item text="Non envoyé" color="red" />
                                 @endif
                             </div>
                         </div>
                     </x-table.cell>
-                    {{-- <x-table.cell>
-                        <livewire:pages.guests.single-invitation :guest="$guest"
-                            :wire:key="'invitation-'.$guest->id" />
-                    </x-table.cell> --}}
                     <x-table.cell class="w-fit px-5 text-sm">
                         <div class="flex gap-3 justify-center">
                             <a href="{{ route('admin.guests.edit', $guest) }}"
