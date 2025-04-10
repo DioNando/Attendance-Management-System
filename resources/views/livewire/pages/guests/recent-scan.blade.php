@@ -22,16 +22,14 @@
                                         <x-heroicon-o-qr-code class="size-5 text-blue-500 dark:text-blue-400 mr-2" />
                                         <span class="text-sm text-blue-600 dark:text-blue-400">QR Code</span>
                                     </div>
-                                    {{-- <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $scan['guest']['qr_code'] }}"
-                                        alt="QR Code pour {{ $scan['guest']['first_name'] }} {{ $scan['guest']['last_name'] }}"
-                                        class="w-20 h-20 flex-shrink-0 p-1 border-2 border-gray-200 dark:border-gray-700" /> --}}
                                     <div class="mt-1 text-xs text-gray-700 dark:text-gray-400">
                                         {{ $scan['guest']['qr_code'] }}</div>
                                 </div>
                             </x-table.cell>
                             <x-table.cell>
                                 <div class="flex items-center">
-                                    <x-badge.item text="{{ $scan['created_at'] }}" color="green" />
+                                    <x-badge.item text="Présent" color="green" />
+                                    <span class="ml-2 text-xs text-gray-600 dark:text-gray-400">{{ $scan['created_at'] }}</span>
                                 </div>
                             </x-table.cell>
                             <x-table.cell>
@@ -46,10 +44,11 @@
                                                 'Scanner' => 'yellow',
                                                 'Invité' => 'gray',
                                             ];
-                                            $roleColor = $roleColors[$scan['scanned_by_role']->label()] ?? 'gray';
+                                            $roleLabel = is_object($scan['scanned_by_role']) ? $scan['scanned_by_role']->label() : $scan['scanned_by_role'];
+                                            $roleColor = $roleColors[$roleLabel] ?? 'gray';
                                         @endphp
                                         <div>
-                                            <x-badge.item :text="$scan['scanned_by_role']->label()" :color="$roleColor" />
+                                            <x-badge.item :text="$roleLabel" :color="$roleColor" />
                                         </div>
                                     @endif
                                 </div>

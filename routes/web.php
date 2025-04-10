@@ -57,7 +57,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Routes pour le scan des QR codes
 Route::prefix('events/{event}/scan')->middleware(['auth'])->group(function () {
     Route::get('/', [ScanController::class, 'showScanInterface'])->name('scan.index');
-    // Route::post('/process', [ScanController::class, 'processQrCode'])->name('scan.process');
     Route::get('/stats', [ScanController::class, 'scanStats'])->name('scan.stats');
 });
 

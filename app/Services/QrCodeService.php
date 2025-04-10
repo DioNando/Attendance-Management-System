@@ -196,9 +196,10 @@ class QrCodeService
         $presentGuests = $event->attendances()->where('status', 'present')->count();
         $percentPresent = $totalGuests > 0 ? round(($presentGuests / $totalGuests) * 100) : 0;
 
-        // Calcul des arrivées par heure
+        // Calcul des arrivées par heure - compatible avec SQLite
         $arrivalsByHour = $event->attendances()
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            // ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            ->selectRaw("strftime('%H', created_at) as hour, COUNT(*) as count")
             ->groupBy('hour')
             ->pluck('count', 'hour')
             ->toArray();

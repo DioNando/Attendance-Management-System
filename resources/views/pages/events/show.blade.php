@@ -246,7 +246,7 @@
         </x-button.primary>
         <livewire:pages.guests.export :event="$event" />
         <livewire:pages.guests.send-invitations :event="$event" />
-        <x-button.primary href="{{ route('admin.guests.create', ['event_id' => $event->id]) }}" responsive
+        <x-button.primary href="{{ route('admin.guests.create', ['event_id' => $event->id]) }}" color="green" responsive
             icon="heroicon-o-plus">
             {{ __('Ajouter des invités') }}
         </x-button.primary>

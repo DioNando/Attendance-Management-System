@@ -85,6 +85,6 @@ class ScanController extends Controller implements HasMiddleware
             ->take(10)
             ->get();
 
-        return view('scan.stats', compact('event', 'stats', 'recentArrivals'));
+        return view('pages.scan.stats', compact('event', 'stats', 'recentArrivals'));
     }
 }
