@@ -8,8 +8,22 @@
                         <h3 class="flex items-center gap-2 text-2xl font-bold text-blue-600 dark:text-blue-400">
                             {{ __('Tableau de bord') }}
                         </h3>
-                        <span
-                            class="text-sm text-gray-500 dark:text-gray-400">{{ \App\Enums\UserRole::tryFrom(auth()->user()->role->value)?->label() ?? auth()->user()->role }}</span>
+                        <div class="flex items-center">
+                            @php
+                                $roleColors = [
+                                    'Administrateur' => 'red',
+                                    'Organisateur' => 'blue',
+                                    'Staff' => 'green',
+                                    'Scanner' => 'yellow',
+                                    'Invité' => 'gray',
+                                ];
+                                $userRoleLabel =
+                                    \App\Enums\UserRole::tryFrom(auth()->user()->role->value)?->label() ??
+                                    auth()->user()->role;
+                                $roleColor = $roleColors[$userRoleLabel] ?? 'gray';
+                            @endphp
+                            <x-badge.item :text="$userRoleLabel" :color="$roleColor" />
+                        </div>
                     </div>
                     <div>
                         <x-button.primary href="{{ route('admin.events.create') }}" responsive icon="heroicon-o-plus">
@@ -44,65 +58,38 @@
             @endphp
 
             {{-- Cartes de statistiques --}}
-            <x-dashboard.stat-card
-                title="Total des événements"
-                :value="$totalEvents"
-                icon="heroicon-o-calendar-days"
-                iconColor="blue"
-            />
+            <x-dashboard.stat-card title="Total des événements" :value="$totalEvents" icon="heroicon-o-calendar-days"
+                iconColor="blue" />
 
-            <x-dashboard.stat-card
-                title="Événements à venir"
-                :value="$upcomingEvents"
-                icon="heroicon-o-clock"
-                iconColor="indigo"
-            />
+            <x-dashboard.stat-card title="Événements à venir" :value="$upcomingEvents" icon="heroicon-o-clock"
+                iconColor="indigo" />
 
-            <x-dashboard.stat-card
-                title="Événements en cours"
-                :value="$ongoingEvents"
-                icon="heroicon-o-play"
-                iconColor="green"
-            />
+            <x-dashboard.stat-card title="Événements en cours" :value="$ongoingEvents" icon="heroicon-o-play"
+                iconColor="green" />
 
-            <x-dashboard.stat-card
-                title="Taux de présence"
-                value="{{ $attendanceRate }}%"
-                icon="heroicon-o-user-group"
-                iconColor="yellow"
-            />
+            <x-dashboard.stat-card title="Taux de présence" value="{{ $attendanceRate }}%" icon="heroicon-o-user-group"
+                iconColor="yellow" />
         </div>
 
         {{-- Graphiques et Détails --}}
-        <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div class="hidden mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {{-- Graphique de répartition des événements --}}
-            <x-dashboard.event-distribution
-                :upcomingEvents="$upcomingEvents"
-                :ongoingEvents="$ongoingEvents"
-                :pastEvents="$pastEvents"
-                :totalEvents="$totalEvents"
-            />
+            <x-dashboard.event-distribution :upcomingEvents="$upcomingEvents" :ongoingEvents="$ongoingEvents" :pastEvents="$pastEvents" :totalEvents="$totalEvents" />
 
             {{-- Graphique des invités par événement --}}
             @php
-                $topEvents = \App\Models\Event::withCount('guests')
-                    ->orderBy('guests_count', 'desc')
-                    ->take(5)
-                    ->get();
+                $topEvents = \App\Models\Event::withCount('guests')->orderBy('guests_count', 'desc')->take(5)->get();
 
                 $maxGuests = $topEvents->max('guests_count') ?: 1;
             @endphp
 
-            <x-dashboard.top-events
-                :events="$topEvents"
-                :maxGuests="$maxGuests"
-            />
+            <x-dashboard.top-events :events="$topEvents" :maxGuests="$maxGuests" />
         </div>
 
         {{-- Événements à venir (Cards) --}}
         <div class="mt-8">
             <h3 class="mb-6 text-xl font-bold text-gray-900 dark:text-white">Événements à venir</h3>
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
                 @php
                     $upcomingEventsList = \App\Models\Event::where('start_date', '>', $today)
                         ->orderBy('start_date', 'asc')
@@ -128,7 +115,7 @@
             @if ($upcomingEventsList->count() > 0)
                 <div class="mt-6 flex justify-center">
                     <a href="{{ route('admin.events.index') }}"
-                        class="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                        class="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                         Voir tous les événements
                     </a>
                 </div>
