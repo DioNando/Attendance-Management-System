@@ -13,7 +13,7 @@
         </div>
 
         <!-- Options et contrôles -->
-        <div class="flex gap-4 mb-6">
+        <div class="flex gap-3 mb-6">
             <div class="grid grid-cols-1 flex-auto">
                 <select id="camera-select"
                     class=" px-3 py-1.5 text-base col-start-1 row-start-1 w-full appearance-none rounded-md bg-gray-300/10 dark:bg-white/5 pr-8 pl-3 text-gray-900 dark:text-white outline-1 -outline-offset-1 *:bg-gray-200 dark:*:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6 outline-gray-300 dark:outline-white/10">
@@ -36,7 +36,7 @@
             <x-form.form submit="processQrCode">
                 <div class="flex gap-3">
                     <div class="w-full">
-                        <x-form.input name="qr_code" placeholder="Entrez le code d'invitation" />
+                        <x-form.input name="qr_code" placeholder="Entrez le code d'invitation" autocomplete="off" />
                     </div>
                     <x-button.primary type="submit" color="green">
                         Vérifier
@@ -56,12 +56,12 @@
     </div>
 
     <!-- Résultat du scan -->
-    <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6 rounded-lg">
+    <div class="self-start bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6 rounded-lg">
         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Résultat du scan</h2>
 
         <div id="scan-result" class="{{ $show_result ? '' : 'hidden' }}">
             @if ($result)
-                <div class="p-4 mb-4 rounded-lg bg-gray-50 dark:bg-gray-700">
+                <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
                     <div
                         class="text-lg font-bold mb-2 {{ $result['status'] === 'success'
                             ? 'text-green-600'
@@ -78,8 +78,8 @@
                 </div>
 
                 @if ($guest)
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 mt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <div class="text-gray-500 dark:text-gray-400">Nom</div>
                                 <div class="font-semibold text-gray-900 dark:text-gray-100">
