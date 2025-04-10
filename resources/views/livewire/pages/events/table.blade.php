@@ -1,5 +1,5 @@
 @php
-    $headers = ['Nom', 'Description', 'Localisation', 'Invités', 'Debut', 'Fin', 'Durée', ''];
+    $headers = ['Nom', 'Description', 'Localisation', 'Invités', 'Avancées', 'Debut', 'Fin', 'Durée', ''];
     $empty = 'Aucun evenement trouvé';
 @endphp
 <div>
@@ -40,6 +40,49 @@
                         </div>
                     </x-table.cell>
                     <x-table.cell>
+                        <div class="flex flex-col space-y-2">
+                            @if($event->guests_count > 0)
+                                @php
+                                    $presentCount = $event->attendances()->count();
+                                    $presentPercent = round(($presentCount / $event->guests_count) * 100);
+
+                                    $sentCount = $event->guests()->where('invitation_sent', true)->count();
+                                    $sentPercent = round(($sentCount / $event->guests_count) * 100);
+                                @endphp
+
+                                <!-- Statistiques de présence -->
+                                <div class="w-full">
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="flex items-center gap-1">
+                                            <x-heroicon-o-check-badge class="h-3 w-3 text-green-500" />
+                                            <span>Présence</span>
+                                        </span>
+                                        <span>{{ $presentCount }}/{{ $event->guests_count }}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                        <div class="bg-green-600 h-1.5 rounded-full" style="width: {{ $presentPercent }}%"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Statistiques d'invitations -->
+                                <div class="w-full">
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="flex items-center gap-1">
+                                            <x-heroicon-o-envelope class="h-3 w-3 text-blue-500" />
+                                            <span>Invitations</span>
+                                        </span>
+                                        <span>{{ $sentCount }}/{{ $event->guests_count }}</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                        <div class="bg-blue-600 h-1.5 rounded-full" style="width: {{ $sentPercent }}%"></div>
+                                    </div>
+                                </div>
+                            @else
+                                <span class="text-xs text-gray-500 dark:text-gray-400">Aucun invité</span>
+                            @endif
+                        </div>
+                    </x-table.cell>
+                    <x-table.cell>
                         <div class="flex items-center">
                             {{-- <x-heroicon-o-calendar class="size-5 text-emerald-500 dark:text-emerald-400 mr-2" /> --}}
                             <span>{{ \Carbon\Carbon::parse($event->start_date)->translatedFormat('d F Y') }}</span>
@@ -53,7 +96,7 @@
                     </x-table.cell>
                     <x-table.cell>
                         <div class="flex items-center">
-                            <x-heroicon-o-clock class="size-4 text-yellow-500 dark:text-yellow-400 mr-2" />
+                            {{-- <x-heroicon-o-clock class="size-4 text-yellow-500 dark:text-yellow-400 mr-2" /> --}}
                             @if ($event->end_date)
                                 <x-badge.item
                                     text="{{ \Carbon\Carbon::parse($event->start_date)->diffForHumans(\Carbon\Carbon::parse($event->end_date), ['parts' => 1, 'short' => true]) }}"

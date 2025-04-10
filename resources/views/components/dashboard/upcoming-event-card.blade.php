@@ -64,6 +64,47 @@
                     invité{{ $event->guests_count > 1 ? 's' : '' }}
                 </dd>
             </div>
+
+            <!-- Statistiques des présences -->
+            @if($event->guests_count > 0)
+                @php
+                    $presentCount = $event->attendances()->count();
+                    $presentPercent = round(($presentCount / $event->guests_count) * 100);
+
+                    $sentCount = $event->guests()->where('invitation_sent', true)->count();
+                    $sentPercent = round(($sentCount / $event->guests_count) * 100);
+                @endphp
+
+                <div class="flex items-start text-sm mt-2">
+                    <dt class="flex items-center text-gray-500 dark:text-gray-400 w-8 mt-1">
+                        <x-heroicon-o-check-badge class="h-4 w-4" />
+                    </dt>
+                    <dd class="text-gray-700 dark:text-gray-300 flex-1">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span>Présence</span>
+                            <span>{{ $presentCount }}/{{ $event->guests_count }} ({{ $presentPercent }}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                            <div class="bg-green-600 h-1.5 rounded-full" style="width: {{ $presentPercent }}%"></div>
+                        </div>
+                    </dd>
+                </div>
+
+                <div class="flex items-start text-sm mt-1">
+                    <dt class="flex items-center text-gray-500 dark:text-gray-400 w-8 mt-1">
+                        <x-heroicon-o-envelope class="h-4 w-4" />
+                    </dt>
+                    <dd class="text-gray-700 dark:text-gray-300 flex-1">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span>Invitations</span>
+                            <span>{{ $sentCount }}/{{ $event->guests_count }} ({{ $sentPercent }}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: {{ $sentPercent }}%"></div>
+                        </div>
+                    </dd>
+                </div>
+            @endif
         </dl>
     </div>
 </div>

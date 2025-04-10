@@ -19,6 +19,7 @@ class Table extends Component
         'invitationsSent' => 'updatePage',
         'invitationSent' => 'updatePage',
         'searchUpdated' => 'updateSearch',
+        'scanProcessed' => 'updatePage', // Écouter les nouveaux scans
     ];
 
     public function updatePage()
@@ -37,6 +38,10 @@ class Table extends Component
     public function render()
     {
         $guests = Guest::where('event_id', $this->event->id)
+            ->with(['attendance' => function($query) {
+                $query->where('event_id', $this->event->id)
+                    ->with('checkedInBy');
+            }])
             ->where(function ($query) {
                 if ($this->search) {
                     $query->where('first_name', 'like', '%' . $this->search . '%')
@@ -46,7 +51,6 @@ class Table extends Component
             })
             ->orderBy('first_name')
             ->paginate($this->perPage);
-            // ->get();
 
         return view('livewire.pages.guests.table', compact('guests'));
     }

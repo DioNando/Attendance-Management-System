@@ -157,6 +157,57 @@
                                         <p class="text-xl font-semibold text-gray-800 dark:text-gray-200 w-2/3">
                                             {{ $event->guests->count() }}</p>
                                     </div>
+
+                                    <!-- Présence -->
+                                    <div class="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded">
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 w-1/3">Présence</p>
+                                        <div class="w-2/3">
+                                            @php
+                                                $presentCount = $event->attendances()->count();
+                                                $absentCount = $event->guests->count() - $presentCount;
+                                                $presentPercent = $event->guests->count() > 0 ? round(($presentCount / $event->guests->count()) * 100) : 0;
+                                            @endphp
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $presentCount }} <span class="text-sm font-normal">présents</span>
+                                                </p>
+                                                <span class="text-gray-400">/</span>
+                                                <p class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $absentCount }} <span class="text-sm font-normal">absents</span>
+                                                </p>
+                                            </div>
+                                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
+                                                <div class="bg-green-600 h-2.5 rounded-full" style="width: {{ $presentPercent }}%"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $presentPercent }}% de présence</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Invitations -->
+                                    <div class="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded">
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 w-1/3">Invitations</p>
+                                        <div class="w-2/3">
+                                            @php
+                                                $sentCount = $event->guests()->where('invitation_sent', true)->count();
+                                                $notSentCount = $event->guests()->where('invitation_sent', false)->count();
+                                                $sentPercent = $event->guests->count() > 0 ? round(($sentCount / $event->guests->count()) * 100) : 0;
+                                            @endphp
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $sentCount }} <span class="text-sm font-normal">envoyées</span>
+                                                </p>
+                                                <span class="text-gray-400">/</span>
+                                                <p class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $notSentCount }} <span class="text-sm font-normal">non envoyées</span>
+                                                </p>
+                                            </div>
+                                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-2">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $sentPercent }}%"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $sentPercent }}% d'invitations envoyées</p>
+                                        </div>
+                                    </div>
+
                                     <div class="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded">
                                         <p class="text-sm text-gray-500 dark:text-gray-400 w-1/3">Date de création</p>
                                         <p class="text-sm font-medium text-gray-800 dark:text-gray-200 w-2/3">

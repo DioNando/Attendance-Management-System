@@ -1,6 +1,6 @@
 <div>
     @php
-        $headers = ['Nom', 'Prénom', 'Email', 'Téléphone', 'Qr Code', 'Invitation', ''];
+        $headers = ['Nom', 'Prénom', 'Email', 'Téléphone', 'Qr Code', 'Invitation', 'Présence', ''];
         $empty = 'Aucun invité trouvé';
     @endphp
     <x-table.group :headers="$headers">
@@ -50,6 +50,26 @@
                                     <x-badge.item text="Non envoyé" color="red" />
                                 @endif
                             </div>
+                        </div>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <div class="flex flex-col gap-2">
+                            @if ($guest->attendance)
+                                <div>
+                                    <x-badge.item text="Présent" color="green" />
+                                </div>
+                                <div class="text-xs text-gray-700 dark:text-gray-400">
+                                    {{ $guest->attendance->checked_in_at->format('d/m/Y H:i') }}
+                                </div>
+                                <div class="text-xs text-gray-700 dark:text-gray-400">
+                                    Par:
+                                    {{ $guest->attendance->checkedInBy->first_name . ' ' . $guest->attendance->checkedInBy->last_name ?? 'N/A' }}
+                                </div>
+                            @else
+                                <div>
+                                    <x-badge.item text="Non présent" color="red" />
+                                </div>
+                            @endif
                         </div>
                     </x-table.cell>
                     <x-table.cell class="w-fit px-5 text-sm">
