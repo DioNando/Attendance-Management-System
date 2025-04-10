@@ -4,68 +4,87 @@ namespace App\Http\Controllers;
 
 use App\Models\Guest;
 use App\Models\Attendance;
+use App\Models\Event;
 use App\Services\QrCodeService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class ScanController extends Controller
+class ScanController extends Controller implements HasMiddleware
 {
+    use AuthorizesRequests;
+
     protected $qrCodeService;
+
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+        ];
+    }
 
     public function __construct(QrCodeService $qrCodeService)
     {
         $this->qrCodeService = $qrCodeService;
+        $this->middleware('auth');
     }
 
-    public function index()
+    /**
+     * Affiche l'interface de scan pour un événement
+     */
+    public function showScanInterface(Event $event)
     {
-        return view('scan.index');
+        // $this->authorize('scan', $event);
+
+        return view('pages.scan.index', compact('event'));
     }
 
-    public function verify(Request $request)
+    /**
+     * Traite les données du QR code scanné
+     */
+    public function processQrCode(Request $request, Event $event)
     {
-        $qrData = $request->input('qr_data');
-        $guest = $this->qrCodeService->validateQrCode($qrData);
+        // $this->authorize('scan', $event);
 
-        if (!$guest) {
-            return response()->json([
-                'success' => false,
-                'message' => 'QR code invalide'
-            ], 400);
-        }
-
-        // Vérifier si déjà enregistré
-        $attendance = Attendance::where('guest_id', $guest->id)
-            ->where('event_id', $guest->event_id)
-            ->first();
-
-        if ($attendance && $attendance->checked_in_at) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invité déjà enregistré',
-                'guest' => $guest,
-                'checked_in_at' => $attendance->checked_in_at
-            ]);
-        }
-
-        // Créer ou mettre à jour l'enregistrement de présence
-        if (!$attendance) {
-            $attendance = new Attendance([
-                'guest_id' => $guest->id,
-                'event_id' => $guest->event_id,
-            ]);
-        }
-
-        $attendance->checked_in_at = now();
-        $attendance->checked_in_by = Auth::id();
-        $attendance->status = 'checked-in';
-        $attendance->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Invité enregistré avec succès',
-            'guest' => $guest,
-            'checked_in_at' => $attendance->checked_in_at
+        $request->validate([
+            'qr_code' => 'required|string'
         ]);
+
+        $result = $this->qrCodeService->verifyAndRegisterAttendance(
+            $request->qr_code,
+            $event->id,
+            Auth::id()
+        );
+
+        if ($request->ajax()) {
+            return response()->json($result);
+        }
+
+        if ($result['status'] === 'success') {
+            return redirect()->back()->with('success', $result['message']);
+        }
+        if ($result['status'] === 'warning') {
+            return redirect()->back()->with('warning', $result['message']);
+        } else {
+            return redirect()->back()->with('error', $result['message']);
+        }
+    }
+
+    /**
+     * Affiche les statistiques de scan en temps réel
+     */
+    public function scanStats(Event $event)
+    {
+        // $this->authorize('viewStats', $event);
+
+        $stats = $this->qrCodeService->getQrCodeStats($event);
+        $recentArrivals = $event->attendances()
+            ->with('guest')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('scan.stats', compact('event', 'stats', 'recentArrivals'));
     }
 }

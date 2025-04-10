@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ScanController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Routes pour la gestion des présences
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('/attendances', AttendanceController::class);
+});
+
+// Routes pour le scan des QR codes
+Route::prefix('events/{event}/scan')->middleware(['auth'])->group(function () {
+    Route::get('/', [ScanController::class, 'showScanInterface'])->name('scan.index');
+    Route::post('/process', [ScanController::class, 'processQrCode'])->name('scan.process');
+    Route::get('/stats', [ScanController::class, 'scanStats'])->name('scan.stats');
+});
+
+// API endpoints
+Route::prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('events/{event}/recent-scans', [ScanController::class, 'getRecentScans'])->name('api.recent-scans');
 });
 
 require __DIR__ . '/auth.php';

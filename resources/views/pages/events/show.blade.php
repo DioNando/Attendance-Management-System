@@ -190,6 +190,9 @@
 
     <div class="my-3 flex items-start flex-wrap gap-3 sm:mt-0">
         <livewire:table.searchbar />
+        <x-button.primary href="{{ route('scan.index', $event) }}" responsive icon="heroicon-o-qr-code">
+            {{ __('Scanner') }}
+        </x-button.primary>
         <livewire:pages.guests.export :event="$event" />
         <livewire:pages.guests.send-invitations :event="$event" />
         <x-button.primary href="{{ route('admin.guests.create', ['event_id' => $event->id]) }}" responsive

@@ -36,6 +36,7 @@
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $guest->qr_code }}"
                                 alt="QR Code pour {{ $guest->first_name }} {{ $guest->last_name }}"
                                 class="w-20 h-20 flex-shrink-0 p-1 border-2 border-gray-200 dark:border-gray-700" />
+                            <div class="mt-2 text-xs text-gray-700 dark:text-gray-400">{{ $guest->qr_code }}</div>
                         </div>
                     </x-table.cell>
                     <x-table.cell>

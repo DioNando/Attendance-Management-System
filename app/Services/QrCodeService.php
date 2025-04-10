@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Models\Guest;
+use App\Models\Attendance;
+use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 
 class QrCodeService
 {
@@ -44,11 +47,6 @@ class QrCodeService
      * @param Guest $guest
      * @return string Chemin vers l'image générée
      */
-    // ? public function generateStyledCardForGuest(Guest $guest): string
-    // {
-    //     $path = $guest->qr_code . '.png';
-    //     return $path;
-    // }
     public function generateStyledCardForGuest(Guest $guest): string
     {
         // Générer d'abord le QR code
@@ -75,7 +73,7 @@ class QrCodeService
         $canvas->insert($qrImage, 'left', 50, 50);
 
         // Ajouter le nom de l'événement
-        $canvas->text($guest->event->name, 400, 120, function($font) {
+        $canvas->text($guest->event->name, 400, 120, function ($font) {
             $font->file(public_path('fonts/OpenSans-Bold.ttf'));
             $font->size(36);
             $font->color('#3498db');
@@ -84,7 +82,7 @@ class QrCodeService
         });
 
         // Ajouter le nom du guest
-        $canvas->text("{$guest->first_name} {$guest->last_name}", 400, 200, function($font) {
+        $canvas->text("{$guest->first_name} {$guest->last_name}", 400, 200, function ($font) {
             $font->file(public_path('fonts/OpenSans-Regular.ttf'));
             $font->size(24);
             $font->color('#2c3e50');
@@ -97,7 +95,7 @@ class QrCodeService
             ? "Du {$guest->event->start_date->format('d/m/Y')} au {$guest->event->end_date->format('d/m/Y')}"
             : "Le {$guest->event->start_date->format('d/m/Y')}";
 
-        $canvas->text($dateText, 400, 250, function($font) {
+        $canvas->text($dateText, 400, 250, function ($font) {
             $font->file(public_path('fonts/OpenSans-Regular.ttf'));
             $font->size(18);
             $font->color('#7f8c8d');
@@ -106,7 +104,7 @@ class QrCodeService
         });
 
         // Ajouter le code d'invitation
-        $canvas->text("Code: {$guest->qr_code}", 400, 300, function($font) {
+        $canvas->text("Code: {$guest->qr_code}", 400, 300, function ($font) {
             $font->file(public_path('fonts/OpenSans-Regular.ttf'));
             $font->size(18);
             $font->color('#7f8c8d');
@@ -123,5 +121,93 @@ class QrCodeService
         @unlink($tempQrPath);
 
         return $path;
+    }
+
+    /**
+     * Vérifie un QR code et enregistre la présence si valide
+     *
+     * @param string $qrCodeData Données encodées du QR code
+     * @param int $eventId ID de l'événement où le scan est effectué
+     * @param int $scannedBy ID de l'utilisateur effectuant le scan
+     * @return array Résultat de la vérification avec statut et message
+     */
+    public function verifyAndRegisterAttendance(string $qrCodeData, int $eventId, int $scannedBy): array
+    {
+        // ? $guest = $this->validateQrCode($qrCodeData);
+        $guest = Guest::where('qr_code', $qrCodeData)->first();
+
+        if (!$guest) {
+            return [
+                'status' => 'error',
+                'message' => 'QR code invalide ou corrompu',
+                'guest' => null
+            ];
+        }
+
+        // Vérifier que l'invité appartient à cet événement
+        if ($guest->event_id != $eventId) {
+            return [
+                'status' => 'error',
+                'message' => 'Cet invité n\'est pas inscrit à cet événement',
+                'guest' => $guest
+            ];
+        }
+
+        // Vérifier si l'invité est déjà enregistré
+        $existingAttendance = Attendance::where('guest_id', $guest->id)
+            ->where('event_id', $eventId)
+            ->first();
+
+        if ($existingAttendance) {
+            return [
+                'status' => 'warning',
+                'message' => 'Invité déjà enregistré à ' . $existingAttendance->checked_in_at->format('H:i'),
+                'guest' => $guest,
+                'attendance' => $existingAttendance
+            ];
+        }
+
+        // Enregistrer la présence
+        $attendance = new Attendance();
+        $attendance->guest_id = $guest->id;
+        $attendance->event_id = $eventId;
+        $attendance->checked_in_by = $scannedBy;
+        $attendance->checked_in_at = Carbon::now();
+        $attendance->status = 'present';
+        $attendance->save();
+
+        return [
+            'status' => 'success',
+            'message' => 'Présence enregistrée avec succès',
+            'guest' => $guest,
+            'attendance' => $attendance
+        ];
+    }
+
+    /**
+     * Génère des statistiques sur les QR codes et présences pour un événement
+     *
+     * @param Event $event L'événement concerné
+     * @return array Statistiques de présence
+     */
+    public function getQrCodeStats(Event $event): array
+    {
+        $totalGuests = $event->guests()->count();
+        $presentGuests = $event->attendances()->where('status', 'present')->count();
+        $percentPresent = $totalGuests > 0 ? round(($presentGuests / $totalGuests) * 100) : 0;
+
+        // Calcul des arrivées par heure
+        $arrivalsByHour = $event->attendances()
+            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            ->groupBy('hour')
+            ->pluck('count', 'hour')
+            ->toArray();
+
+        return [
+            'totalGuests' => $totalGuests,
+            'presentGuests' => $presentGuests,
+            'percentPresent' => $percentPresent,
+            'arrivalsByHour' => $arrivalsByHour
+        ];
     }
 }

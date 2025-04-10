@@ -9,9 +9,16 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/scss/app.scss",
                 "resources/js/app.js",
+                "resources/js/dark-mode.js",
             ],
             refresh: true,
         }),
         tailwindcss(),
     ],
+    server: {
+        host: "0.0.0.0",
+        hmr: {
+            host: "localhost",
+        },
+    },
 });

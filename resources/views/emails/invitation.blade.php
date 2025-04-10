@@ -182,16 +182,6 @@
                     Télécharger votre QR code
                 </a>
             </div>
-            {{-- ! <div class="qr-code">
-                <img src="{{ asset('storage/' . $qrCardPath) }}" alt="QR Code personnalisé pour {{ $guest->first_name }} {{ $guest->last_name }}" style="max-width: 100%; height: auto;">
-                <p class="qr-code-caption">Code d'invitation: <strong>{{ $guest->qr_code }}</strong></p>
-
-                <!-- Lien pour télécharger le QR code stylisé -->
-                <a href="{{ asset('storage/' . $qrCardPath) }}"
-                   class="download-link" download="Invitation_{{ $guest->event->name }}_{{ $guest->first_name }}_{{ $guest->last_name }}.png">
-                    Télécharger votre invitation
-                </a>
-            </div> --}}
 
             <p>Veuillez présenter ce QR code à l'entrée de l'événement (version imprimée ou sur votre téléphone).</p>
 
