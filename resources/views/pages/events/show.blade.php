@@ -87,7 +87,7 @@
                         <!-- Accordion Header -->
                         <button @click="open = !open"
                             class="flex w-full items-center justify-between py-2 text-left focus:outline-none">
-                            <span class="text-md font-semibold text-gray-700 dark:text-gray-300">Détails de
+                            <span class="text-lg font-semibold text-blue-700 dark:text-gray-300">Détails de
                                 l'événement</span>
                             <x-heroicon-o-chevron-down class="w-5 h-5 text-gray-500 dark:text-gray-400"
                                 x-bind:class="{ 'rotate-180': open }" />
@@ -97,7 +97,7 @@
                         <div x-show="open" x-cloak class="space-y-6">
                             <!-- Event date and time -->
                             <div>
-                                <div class="flex items-center">
+                                <div class="flex items-start">
                                     <dt class="text-md font-semibold text-gray-700 dark:text-gray-300 w-1/3">
                                         Dates
                                     </dt>
@@ -116,7 +116,7 @@
 
                             <!-- Organizer -->
                             <div>
-                                <div class="flex items-center">
+                                <div class="flex items-start">
                                     <dt class="text-md font-semibold text-gray-700 dark:text-gray-300 w-1/3">
                                         Organisateur
                                     </dt>
@@ -134,7 +134,7 @@
 
                             <!-- Location -->
                             <div>
-                                <div class="flex items-center">
+                                <div class="flex items-start">
                                     <dt class="text-md font-semibold text-gray-700 dark:text-gray-300 w-1/3">
                                         Lieu
                                     </dt>

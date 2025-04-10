@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Guests;
 
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Export extends Component
 {
@@ -30,6 +31,34 @@ class Export extends Component
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment',
         ]);
+    }
+
+    public function downloadPdf()
+    {
+        // Get guests from the event
+        $guests = $this->event->guests()->get();
+
+        // Get the file name
+        $fileName = 'invites_' . ($this->event->slug ?? slugify($this->event->name)) . '_' . date('Y-m-d') . '.pdf';
+
+        // Generate PDF using the template
+        $pdf = PDF::loadView('livewire.pages.guests.pdf-template', [
+            'event' => $this->event,
+            'guests' => $guests
+        ]);
+
+        // Configuration optionnelle
+        $pdf->setPaper('a4', 'portrait');
+
+        // Télécharger le PDF
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            $fileName,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment',
+            ]
+        );
     }
 
     private function generateCsvContent($guests, $columns)

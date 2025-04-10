@@ -18,7 +18,7 @@ new class extends Component {
 <div
     class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs
         sm:gap-x-6 sm:px-6 lg:px-8
-        dark:border-gray-700 dark:bg-gray-800">
+        dark:border-gray-700 dark:bg-gray-900">
 
     {{-- <button @click="open = true" type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden dark:text-gray-300">
         <span class="sr-only">Ouvrir</span>
@@ -32,14 +32,16 @@ new class extends Component {
         <x-layout.link route="dashboard" icon="user-group" label="Tableau de bord" />
         <x-layout.link route="admin.events.index" icon="calendar" label="Événements" />
     </div> --}}
-    <ul class="flex gap-6 text-gray-900 dark:text-gray-100 ">
+    <ul class="flex gap-6 text-gray-700 dark:text-gray-100">
         <li>
-            <a href="{{ route('dashboard') }}" class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-home class="size-6" /> <span
-                    class="ml-2 hidden md:block">Accueil</span></a>
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-home class="size-6" />
+                <span class="ml-2 hidden md:block">Accueil</span></a>
         </li>
         <li>
-            <a href="{{ route('admin.events.index') }}" class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-calendar-days class="size-6" /> <span
-                    class="ml-2 hidden md:block">Evènements</span></a>
+            <a href="{{ route('admin.events.index') }}"
+                class="flex items-center font-medium text-base hover:text-blue-500"><x-heroicon-o-calendar-days
+                    class="size-6" /> <span class="ml-2 hidden md:block">Evènements</span></a>
         </li>
     </ul>
 

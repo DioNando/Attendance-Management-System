@@ -43,123 +43,60 @@
                 $attendanceRate = $totalGuests > 0 ? round(($attendedGuests / $totalGuests) * 100) : 0;
             @endphp
 
-            {{-- Total Events --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total des événements</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $totalEvents }}</p>
-                    </div>
-                    <div class="rounded-full bg-blue-100 p-3 dark:bg-blue-900">
-                        <x-heroicon-o-calendar-days class="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                    </div>
-                </div>
-            </div>
+            {{-- Cartes de statistiques --}}
+            <x-dashboard.stat-card
+                title="Total des événements"
+                :value="$totalEvents"
+                icon="heroicon-o-calendar-days"
+                iconColor="blue"
+            />
 
-            {{-- Upcoming Events --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Événements à venir</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $upcomingEvents }}</p>
-                    </div>
-                    <div class="rounded-full bg-indigo-100 p-3 dark:bg-indigo-900">
-                        <x-heroicon-o-clock class="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.stat-card
+                title="Événements à venir"
+                :value="$upcomingEvents"
+                icon="heroicon-o-clock"
+                iconColor="indigo"
+            />
 
-            {{-- Ongoing Events --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Événements en cours</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $ongoingEvents }}</p>
-                    </div>
-                    <div class="rounded-full bg-green-100 p-3 dark:bg-green-900">
-                        <x-heroicon-o-play class="h-6 w-6 text-green-600 dark:text-green-400" />
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.stat-card
+                title="Événements en cours"
+                :value="$ongoingEvents"
+                icon="heroicon-o-play"
+                iconColor="green"
+            />
 
-            {{-- Attendance Rate --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Taux de présence</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $attendanceRate }}%</p>
-                    </div>
-                    <div class="rounded-full bg-yellow-100 p-3 dark:bg-yellow-900">
-                        <x-heroicon-o-user-group class="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.stat-card
+                title="Taux de présence"
+                value="{{ $attendanceRate }}%"
+                icon="heroicon-o-user-group"
+                iconColor="yellow"
+            />
         </div>
 
         {{-- Graphiques et Détails --}}
         <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {{-- Graphique de répartition des événements --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Répartition des événements</h3>
-                <div class="h-64 rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-                    <div class="flex h-full items-end justify-around">
-                        <div class="flex w-1/3 flex-col items-center">
-                            <div class="mb-2 h-full w-16 rounded bg-blue-500 dark:bg-blue-600"
-                                style="height: {{ $upcomingEvents > 0 ? ($upcomingEvents / $totalEvents) * 100 : 0 }}%">
-                            </div>
-                            <span class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">À venir</span>
-                            <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $upcomingEvents }}</span>
-                        </div>
-                        <div class="flex w-1/3 flex-col items-center">
-                            <div class="mb-2 h-full w-16 rounded bg-green-500 dark:bg-green-600"
-                                style="height: {{ $ongoingEvents > 0 ? ($ongoingEvents / $totalEvents) * 100 : 0 }}%">
-                            </div>
-                            <span class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">En cours</span>
-                            <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $ongoingEvents }}</span>
-                        </div>
-                        <div class="flex w-1/3 flex-col items-center">
-                            <div class="mb-2 h-full w-16 rounded bg-gray-400 dark:bg-gray-500"
-                                style="height: {{ $pastEvents > 0 ? ($pastEvents / $totalEvents) * 100 : 0 }}%">
-                            </div>
-                            <span class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Terminés</span>
-                            <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $pastEvents }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.event-distribution
+                :upcomingEvents="$upcomingEvents"
+                :ongoingEvents="$ongoingEvents"
+                :pastEvents="$pastEvents"
+                :totalEvents="$totalEvents"
+            />
 
             {{-- Graphique des invités par événement --}}
-            <div class="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
-                <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Top 5 des événements par invités
-                </h3>
-                <div class="h-64 overflow-hidden rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-                    @php
-                        $topEvents = \App\Models\Event::withCount('guests')
-                            ->orderBy('guests_count', 'desc')
-                            ->take(5)
-                            ->get();
+            @php
+                $topEvents = \App\Models\Event::withCount('guests')
+                    ->orderBy('guests_count', 'desc')
+                    ->take(5)
+                    ->get();
 
-                        $maxGuests = $topEvents->max('guests_count') ?: 1;
-                    @endphp
-                    <div class="flex h-full items-end space-x-2">
-                        @foreach ($topEvents as $event)
-                            <div class="flex h-full flex-1 flex-col items-center justify-end">
-                                <div class="mb-2 w-full rounded bg-indigo-500 dark:bg-indigo-600"
-                                    style="height: {{ ($event->guests_count / $maxGuests) * 100 }}%">
-                                </div>
-                                <div class="w-full overflow-hidden text-center">
-                                    <span class="block truncate text-xs font-medium text-gray-600 dark:text-gray-400"
-                                        title="{{ $event->name }}">
-                                        {{ \Illuminate\Support\Str::limit($event->name, 10) }}
-                                    </span>
-                                    <span
-                                        class="text-xs font-bold text-gray-900 dark:text-white">{{ $event->guests_count }}</span>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+                $maxGuests = $topEvents->max('guests_count') ?: 1;
+            @endphp
+
+            <x-dashboard.top-events
+                :events="$topEvents"
+                :maxGuests="$maxGuests"
+            />
         </div>
 
         {{-- Événements à venir (Cards) --}}
@@ -175,60 +112,7 @@
                 @endphp
 
                 @forelse($upcomingEventsList as $event)
-                    <div
-                        class="overflow-hidden rounded-lg bg-white shadow-md transition-all hover:shadow-lg dark:bg-gray-800">
-                        <div class="bg-blue-100 p-4 dark:bg-blue-900">
-                            <div class="flex items-center justify-between">
-                                <h4 class="font-semibold text-blue-800 dark:text-blue-300">{{ $event->name }}</h4>
-                                @php
-                                    $daysUntil = now()->diffInDays($event->start_date, false);
-                                @endphp
-                                @if ($daysUntil > 0)
-                                    <span
-                                        class="rounded-full bg-blue-200 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-800 dark:text-blue-200">
-                                        Dans {{ floor($daysUntil) }} jour{{ floor($daysUntil) > 1 ? 's' : '' }}
-                                    </span>
-                                @else
-                                    <span
-                                        class="rounded-full bg-green-200 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-800 dark:text-green-200">
-                                        Aujourd'hui
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="mb-4">
-                                <p class="mb-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2"
-                                    title="{{ $event->description }}">
-                                    {{ $event->description ?: 'Aucune description' }}
-                                </p>
-                            </div>
-                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                                <x-heroicon-o-map-pin class="mr-1 h-4 w-4" />
-                                <span>{{ $event->location ?: 'Non spécifié' }}</span>
-                            </div>
-                            <div class="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                                <x-heroicon-o-calendar class="mr-1 h-4 w-4" />
-                                <span>{{ \Carbon\Carbon::parse($event->start_date)->translatedFormat('d F Y') }}</span>
-                            </div>
-                            <div class="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                                <x-heroicon-o-user-group class="mr-1 h-4 w-4" />
-                                <span>{{ $event->guests_count }}
-                                    invité{{ $event->guests_count > 1 ? 's' : '' }}</span>
-                            </div>
-                            <div class="mt-4 flex justify-between">
-                                <a href="{{ route('admin.guests.create', ['event_id' => $event->id]) }}"
-                                    class="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 flex items-center">
-                                    <x-heroicon-o-user-plus class="mr-1 h-4 w-4" />
-                                    Ajouter invité
-                                </a>
-                                <a href="{{ route('admin.events.show', $event) }}"
-                                    class="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
-                                    Consulter
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <x-dashboard.upcoming-event-card :event="$event" />
                 @empty
                     <div class="col-span-full rounded-lg bg-gray-50 p-8 text-center dark:bg-gray-700">
                         <p class="text-gray-600 dark:text-gray-400">Aucun événement à venir</p>

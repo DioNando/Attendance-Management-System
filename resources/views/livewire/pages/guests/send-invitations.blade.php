@@ -1,4 +1,4 @@
-<div class="flex gap-2">
+<div class="flex gap-3">
     <x-button.primary type="button" color="blue" wire:click="sendInvitations" icon="heroicon-o-paper-airplane" responsive>
         {{ __('Envoyer les invitations') }}
     </x-button.primary>
