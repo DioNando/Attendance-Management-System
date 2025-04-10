@@ -42,6 +42,7 @@ class RecentScan extends Component
                     ],
                     'created_at' => $attendance->created_at->diffForHumans(),
                     'scanned_by_name' => $attendance->checkedInBy->first_name . ' ' . $attendance->checkedInBy->last_name ?? 'N/A',
+                    'scanned_by_role' => $attendance->checkedInBy->role ?? 'N/A',
                 ];
             });
     }
