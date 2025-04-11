@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="p-4">
+    <div class="p-6 pb-8">
         <div class="mb-4">
             <p class="mb-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-1" title="{{ $event->description }}">
                 {{ $event->description ?: 'Aucune description' }}

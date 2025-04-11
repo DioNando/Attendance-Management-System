@@ -38,9 +38,10 @@
                 iconColor="indigo" />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- ! <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> --}}
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
             <!-- Graphique des arrivées par heure -->
-            <div class="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6 ">
+            <div class="hidden bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6 ">
                 <h2 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">Arrivées par heure</h2>
                 <div class="h-64">
                     <!-- Graphique à barres simple -->

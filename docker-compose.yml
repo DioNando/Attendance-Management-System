@@ -1,14 +1,32 @@
 services:
-  maildev:
-    image: maildev/maildev
-    container_name: attendance_maildev
-    ports:
-      - "1080:1080"  # Interface web de MailDev
-      - "1025:1025"  # Serveur SMTP
-    networks:
-      - app-network
-    restart: unless-stopped
+    maildev:
+        image: maildev/maildev
+        container_name: attendance_maildev
+        ports:
+            - "1080:1080"
+            - "1025:1025"
+        networks:
+            - app-network
+        restart: unless-stopped
+
+    postgres:
+        image: postgres:latest
+        container_name: attendance_postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: attendance
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - app-network
+        restart: unless-stopped
 
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
+
+volumes:
+    postgres_data:

@@ -15,6 +15,7 @@ class Table extends Component
 
     protected $listeners = [
         'searchUpdated' => 'updateSearch',
+        'refreshComponent' => '$refresh',
     ];
 
     public function updateSearch($search)

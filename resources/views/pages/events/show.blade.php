@@ -241,6 +241,7 @@
 
     <div class="my-3 flex items-start flex-wrap gap-3 sm:mt-0">
         <livewire:table.searchbar />
+        <livewire:actions.refresh />
         <x-button.primary href="{{ route('scan.index', $event) }}" responsive icon="heroicon-o-qr-code">
             {{ __('Scanner') }}
         </x-button.primary>
