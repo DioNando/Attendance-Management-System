@@ -124,6 +124,40 @@
     </div>
 </div>
 
+<!--
+This script implements a QR code scanner using jsQR library and browser's media devices API.
+Main features:
+-Multiple camera support with device selection dropdown
+-Start/stop scanner functionality with appropriate UI feedback
+-Error handling for various camera access issues
+-Real-time QR code detection with automatic processing
+
+Process flow:
+1. On page load, the script initializes by:
+    -Setting up references to DOM elements (video, buttons, camera select)
+-Enumerating available cameras and populating the dropdown
+    -Setting up event listeners for user interactions
+
+2. When the user starts scanning:
+    -Camera stream is requested with proper constraints (preferring rear camera on mobile)
+    -Video feed is displayed while scanning is active
+    -Each video frame is analyzed for QR codes using jsQR
+
+3. When a QR code is detected:
+    -Scanning pauses temporarily to prevent multiple scans
+-The code data is sent to the Livewire component via @this.processQrCode()
+    -Scanning resumes after a short delay (3 seconds)
+
+4. The user can manually stop scanning, which:
+    -Stops all camera tracks
+    -Releases resources
+    -Resets the UI to initial state
+
+Notes:
+-Uses 'playsinline' attribute for better iOS compatibility
+-Includes detailed error messages for various camera access issues
+-Provides camera switching without page reload
+-->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Variables pour le scanner
