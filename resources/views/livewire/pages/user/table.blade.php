@@ -50,7 +50,7 @@
                     <x-table.cell class="w-fit px-5 text-sm">
                         <div class="flex gap-3">
                             <a href="{{ route('admin.users.edit', $user->id) }}"
-                                class="text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>
+                                class="hidden text-gray-700 dark:text-gray-300 hover:text-orange-500">Modifier</a>
                             @if (auth()->id() !== $user->id)
                                 <div x-data="{ openDeleteModal: false }">
                                     <button @click="openDeleteModal = true"

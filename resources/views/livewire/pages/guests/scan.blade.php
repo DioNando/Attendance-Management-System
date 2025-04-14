@@ -13,8 +13,8 @@
         </div>
 
         <!-- Options et contrôles -->
-        <div class="flex gap-3 mb-6">
-            <div class="grid grid-cols-1 flex-auto">
+        <div class="flex justify-end gap-3 mb-6">
+            <div class="hidden grid grid-cols-1 flex-auto">
                 <select id="camera-select"
                     class=" px-3 py-1.5 text-base col-start-1 row-start-1 w-full appearance-none rounded-md bg-gray-300/10 dark:bg-white/5 pr-8 pl-3 text-gray-900 dark:text-white outline-1 -outline-offset-1 *:bg-gray-200 dark:*:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6 outline-gray-300 dark:outline-white/10">
                     <option value="">Choisir une caméra...</option>
@@ -22,12 +22,29 @@
                 <x-heroicon-o-chevron-down
                     class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
             </div>
+            <x-button.primary id="refresh-page" type="button" icon="heroicon-o-arrow-path" color="gray"
+                :responsive="true" onclick="window.location.reload();">
+                Actualiser
+            </x-button.primary>
             <x-button.primary id="start-scanner" type="button" icon="heroicon-o-camera">
-                Démarrer la caméra
+                Démarrer le scan
             </x-button.primary>
             <x-button.primary id="stop-scanner" type="button" color="gray" class="hidden">
                 Arrêter la caméra
             </x-button.primary>
+        </div>
+
+        <div class="mb-6">
+            @if (session()->has('success'))
+                <x-session-message type="success" />
+            @endif
+            @if (session()->has('warning'))
+                <x-session-message type="warning" />
+            @endif
+            @if (session()->has('error'))
+                <x-session-message type="error" />
+            @endif
+            <x-flash-messages />
         </div>
 
         <!-- Saisie manuelle du code -->
@@ -43,15 +60,6 @@
                     </x-button.primary>
                 </div>
             </x-form.form>
-            @if (session()->has('success'))
-                <x-session-message type="success" />
-            @endif
-            @if (session()->has('warning'))
-                <x-session-message type="warning" />
-            @endif
-            @if (session()->has('error'))
-                <x-session-message type="error" />
-            @endif
         </div>
     </div>
 
@@ -239,7 +247,7 @@ Notes:
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 alert(
                     'Votre navigateur ne prend pas en charge l\'accès à la caméra. Essayez avec Chrome ou Firefox.'
-                    );
+                );
                 return;
             }
 
@@ -263,11 +271,11 @@ Notes:
                     if (error.name === 'NotAllowedError') {
                         alert(
                             'Accès à la caméra refusé. Veuillez autoriser l\'accès dans les paramètres de votre navigateur.'
-                            );
+                        );
                     } else if (error.name === 'NotFoundError') {
                         alert(
                             'Aucune caméra détectée. Vérifiez que votre appareil dispose d\'une caméra fonctionnelle.'
-                            );
+                        );
                     } else {
                         alert('Impossible d\'accéder à la caméra: ' + error.message);
                     }
@@ -338,7 +346,7 @@ Notes:
         // Événement pour le bouton "Refaire un scan"
         document.addEventListener('click', function(e) {
             if (e.target && (e.target.id === 'new-scan-button' || e.target.closest(
-                '#new-scan-button'))) {
+                    '#new-scan-button'))) {
                 // Réinitialiser le résultat
                 @this.resetResult();
 

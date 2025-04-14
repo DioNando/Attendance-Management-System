@@ -43,6 +43,11 @@ class Scan extends Component
         // Dispatcher un événement pour mettre à jour la liste des scans récents
         if ($result['status'] === 'success') {
             $this->dispatch('scanProcessed');
+            session()->flash('success', $result['message']);
+        } elseif ($result['status'] === 'warning') {
+            session()->flash('warning', $result['message']);
+        } else {
+            session()->flash('error', $result['message']);
         }
 
         // Réinitialiser le champ après traitement pour les entrées manuelles
