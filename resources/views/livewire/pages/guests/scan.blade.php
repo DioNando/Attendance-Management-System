@@ -212,8 +212,6 @@ Notes:
 
         // Démarrer le scanner
         function startScanning() {
-            // if (scanning) return;
-
             const constraints = {
                 video: {
                     facingMode: 'environment', // Utilise la caméra arrière par défaut
@@ -240,7 +238,8 @@ Notes:
             // Vérifier si l'API est disponible
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 alert(
-                    'Votre navigateur ne prend pas en charge l\'accès à la caméra. Essayez avec Chrome ou Firefox.');
+                    'Votre navigateur ne prend pas en charge l\'accès à la caméra. Essayez avec Chrome ou Firefox.'
+                    );
                 return;
             }
 
@@ -263,10 +262,12 @@ Notes:
                     // Message d'erreur plus détaillé selon le type d'erreur
                     if (error.name === 'NotAllowedError') {
                         alert(
-                            'Accès à la caméra refusé. Veuillez autoriser l\'accès dans les paramètres de votre navigateur.');
+                            'Accès à la caméra refusé. Veuillez autoriser l\'accès dans les paramètres de votre navigateur.'
+                            );
                     } else if (error.name === 'NotFoundError') {
                         alert(
-                            'Aucune caméra détectée. Vérifiez que votre appareil dispose d\'une caméra fonctionnelle.');
+                            'Aucune caméra détectée. Vérifiez que votre appareil dispose d\'une caméra fonctionnelle.'
+                            );
                     } else {
                         alert('Impossible d\'accéder à la caméra: ' + error.message);
                     }
@@ -336,12 +337,16 @@ Notes:
 
         // Événement pour le bouton "Refaire un scan"
         document.addEventListener('click', function(e) {
-            if (e.target && (e.target.id === 'new-scan-button' || e.target.closest('#new-scan-button'))) {
+            if (e.target && (e.target.id === 'new-scan-button' || e.target.closest(
+                '#new-scan-button'))) {
                 // Réinitialiser le résultat
                 @this.resetResult();
 
                 // Reprendre le scanning si la caméra est toujours active
                 if (stream) {
+                    // Assurer l'état correct des boutons lors de la reprise
+                    startButton.classList.add('hidden');
+                    stopButton.classList.remove('hidden');
                     scanning = true;
                     requestAnimationFrame(tick);
                 } else {
@@ -356,4 +361,3 @@ Notes:
     });
 </script>
 <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
-
