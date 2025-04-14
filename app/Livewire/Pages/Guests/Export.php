@@ -19,7 +19,7 @@ class Export extends Component
         $guests = $this->event->guests()->get();
 
         // Define columns to export
-        $columns = ['first_name', 'last_name', 'email', 'phone', 'invitation_sent'];
+        $columns = ['first_name', 'last_name', 'email', 'phone', 'invitation_sent', 'presence'];
 
         // Generate CSV content
         $csvContent = $this->generateCsvContent($guests, $columns);
@@ -35,8 +35,8 @@ class Export extends Component
 
     public function downloadPdf()
     {
-        // Get guests from the event
-        $guests = $this->event->guests()->get();
+        // Get guests from the event with their attendance information
+        $guests = $this->event->guests()->with('attendance')->get();
 
         // Get the file name
         $fileName = 'invites_' . ($this->event->slug ?? slugify($this->event->name)) . '_' . date('Y-m-d') . '.pdf';
@@ -74,6 +74,14 @@ class Export extends Component
             foreach ($columns as $column) {
                 if ($column == 'invitation_sent') {
                     $row[] = $guest->$column ? 'Oui' : 'Non';
+                } elseif ($column == 'presence') {
+                    // Vérifier si l'invité a une présence enregistrée
+                    $attendance = $guest->attendance()->first();
+                    if ($attendance) {
+                        $row[] = $attendance->status === 'present' ? 'Présent' : $attendance->status;
+                    } else {
+                        $row[] = 'Absent';
+                    }
                 } else {
                     $row[] = $guest->$column;
                 }

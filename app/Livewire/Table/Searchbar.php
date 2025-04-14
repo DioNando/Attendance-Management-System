@@ -15,7 +15,7 @@ class Searchbar extends Component
 
     public function updatedSearch()
     {
-        $this->dispatch('searchUpdated', $this->search);
+        $this->dispatch('searchUpdated', strtolower($this->search));
     }
 
     public function render()

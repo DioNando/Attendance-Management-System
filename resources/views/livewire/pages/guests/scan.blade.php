@@ -108,6 +108,13 @@
                         </div>
                     </div>
                 @endif
+
+                <!-- Bouton pour refaire un scan -->
+                <div class="mt-6 flex justify-center">
+                    <x-button.primary id="new-scan-button" type="button" color="blue" icon="heroicon-o-arrow-path">
+                        Refaire un scan
+                    </x-button.primary>
+                </div>
             @endif
         </div>
 
@@ -205,7 +212,7 @@ Notes:
 
         // Démarrer le scanner
         function startScanning() {
-            if (scanning) return;
+            // if (scanning) return;
 
             const constraints = {
                 video: {
@@ -318,14 +325,31 @@ Notes:
             // Arrêter temporairement le scanning pour éviter les scans multiples
             scanning = false;
 
+            // Ne pas changer les boutons car la caméra reste active
+            // On garde le bouton "Arrêter la caméra" visible
+
             // Utiliser Livewire au lieu de fetch
-            @this.processQrCode(qrCode).then(() => {
-                // Reprendre le scanning après 3 secondes
-                setTimeout(() => {
-                    if (stream) scanning = true;
-                }, 3000);
-            });
+            @this.processQrCode(qrCode);
+            // On ne reprend plus automatiquement le scanning
+            // Le scan sera repris quand l'utilisateur cliquera sur le bouton "Refaire un scan"
         }
+
+        // Événement pour le bouton "Refaire un scan"
+        document.addEventListener('click', function(e) {
+            if (e.target && (e.target.id === 'new-scan-button' || e.target.closest('#new-scan-button'))) {
+                // Réinitialiser le résultat
+                @this.resetResult();
+
+                // Reprendre le scanning si la caméra est toujours active
+                if (stream) {
+                    scanning = true;
+                    requestAnimationFrame(tick);
+                } else {
+                    // Si la caméra n'est plus active, la redémarrer
+                    startScanning();
+                }
+            }
+        });
 
         // Initialiser
         initScanner();

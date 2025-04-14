@@ -41,6 +41,13 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .present {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .absent {
+            color: #e74c3c;
+        }
         .page-footer {
             text-align: center;
             font-size: 12px;
@@ -69,6 +76,7 @@
                 <th>Email</th>
                 <th>Téléphone</th>
                 <th>Invitation envoyée</th>
+                <th>Présence</th>
             </tr>
         </thead>
         <tbody>
@@ -79,6 +87,13 @@
                     <td>{{ $guest->email }}</td>
                     <td>{{ $guest->phone ?: 'Non renseigné' }}</td>
                     <td>{{ $guest->invitation_sent ? 'Oui' : 'Non' }}</td>
+                    <td class="{{ $guest->attendance && $guest->attendance->status === 'present' ? 'present' : 'absent' }}">
+                        @if($guest->attendance && $guest->attendance->status === 'present')
+                            Présent
+                        @else
+                            Absent
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>
